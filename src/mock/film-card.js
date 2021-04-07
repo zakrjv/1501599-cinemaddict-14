@@ -27,10 +27,6 @@ const FILM_RATING = {
   min: 0,
   max: 10,
 };
-const FILM_YEAR = {
-  min: 1950,
-  max: 2020,
-};
 const Duration = {
   HOURS: {
     min: 0,
@@ -129,4 +125,3 @@ export const generateFilmCard = () => {
     isFavorites: Boolean(getRandomInteger(0, 1)),
   };
 };
-console.log(generateFilmCard());

@@ -1,7 +1,8 @@
 import {
   getRandomInteger,
   getRandomArrayElement,
-  getRandomArray
+  getRandomArray,
+  generateDate
 } from '../utils.js';
 
 const POSTERS = [
@@ -64,16 +65,68 @@ const COMMENTS_COUNT = {
   min: 0,
   max: 5,
 };
+const PRODUCERS = [
+  'Joe Meek',
+  'George Martin',
+  'Quincy Jones',
+  'Nile Rodgers',
+  'Phil Spector',
+  'Quentin Tarantino',
+  'Brian Eno',
+  'Brian Wilson',
+];
+const SCREENWRITERS = [
+  'Billy Wilder',
+  'Ethan Coen and Joel Coen',
+  'Robert Towne',
+  'Quentin Tarantino',
+  'Francis Ford Coppola',
+];
+const ACTORS = [
+  'Quentin Tarantino',
+  'Jack Nicholson',
+  'Kate Winslet',
+  'Robert De Niro',
+  'Al Pacino',
+  'Daniel Day-Lewis',
+  'Helen Mirren',
+  'Jodie Foster',
+  'Sean Connery',
+];
+const COUNTRIES = [
+  'Austria',
+  'Bolivia',
+  'China',
+  'Estonia',
+  'Germany',
+  'Poland',
+];
+const AGE_RATING = [
+  '14+',
+  '16+',
+  '18+',
+  '21+',
+];
 
 export const generateFilmCard = () => {
   return {
     poster: getRandomArrayElement(POSTERS),
     title: getRandomArrayElement(FILM_TITLES),
+    originalTitle: getRandomArrayElement(FILM_TITLES),
+    releaseDate: generateDate(),
+    ageRating: getRandomArrayElement(AGE_RATING),
+    country: getRandomArrayElement(COUNTRIES),
+    director: getRandomArrayElement(PRODUCERS),
+    screenwriters: getRandomArrayElement(SCREENWRITERS),
+    cast: getRandomArray(ACTORS, getRandomInteger(3, 6)),
     rating: getRandomInteger(FILM_RATING.min, FILM_RATING.max),
-    productionYear: getRandomInteger(FILM_YEAR.min, FILM_YEAR.max),
     duration: `${getRandomInteger(Duration.HOURS.min, Duration.HOURS.max)}h ${getRandomInteger(Duration.MINUTES.min, Duration.MINUTES.max)}m`,
-    genres: getRandomArray(GENRES),
+    genres: getRandomArray(GENRES, getRandomInteger(1, GENRES.length)),
     description: getRandomArray(FILM_DESCRIPTION, getRandomInteger(1, 5)).join(' '),
     commentsCount: getRandomInteger(COMMENTS_COUNT.min, COMMENTS_COUNT.max),
+    isWatchlist: Boolean(getRandomInteger(0, 1)),
+    isWatched: Boolean(getRandomInteger(0, 1)),
+    isFavorites: Boolean(getRandomInteger(0, 1)),
   };
 };
+console.log(generateFilmCard());

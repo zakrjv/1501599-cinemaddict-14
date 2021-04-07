@@ -1,12 +1,13 @@
+import dayjs from 'dayjs';
+
 export const createFilmCard = (filmCard) => {
   const DESC_LENGTH = 140;
-  const ACTIVE_CLASS = 'film-card__controls-item--active';
 
   const {
     poster,
     title,
     rating,
-    productionYear,
+    releaseDate,
     duration,
     genres,
     description,
@@ -23,7 +24,7 @@ export const createFilmCard = (filmCard) => {
           <h3 class="film-card__title">${title}</h3>
           <p class="film-card__rating">${rating}</p>
           <p class="film-card__info">
-            <span class="film-card__year">${productionYear}</span>
+            <span class="film-card__year">${dayjs(releaseDate).format('YYYY')}</span>
             <span class="film-card__duration">${duration}</span>
             <span class="film-card__genre">${mainGenre}</span>
           </p>

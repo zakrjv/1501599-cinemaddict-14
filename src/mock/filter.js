@@ -5,7 +5,7 @@ const filterNames = {
   FAVORITES: 'favorites',
 };
 
-const filterTypes = {
+const aboutFilter = {
   [filterNames.ALL]: {
     link: '#all',
     desc: 'All movies',
@@ -32,10 +32,10 @@ const filmsToFilterMap = {
 };
 
 export const generateFilters = (films) => {
-  return Object.entries(filmsToFilterMap).map(([filterName, getCount]) => {
+  return Object.entries(filmsToFilterMap).map(([filter, getCount]) => {
     return {
-      desc: filterTypes[filterName].desc,
-      link: filterTypes[filterName].link,
+      desc: aboutFilter[filter].desc,
+      link: aboutFilter[filter].link,
       count: getCount(films),
     };
   });

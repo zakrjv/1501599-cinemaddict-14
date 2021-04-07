@@ -10,6 +10,7 @@ import {generateFilmCard} from './mock/film-card.js';
 // import {createFilmComment} from './view/film-comments.js';
 // import {generateFilmComments} from './mock/film-comments.js';
 import {generateFilters} from './mock/filter.js';
+import {getRank} from './mock/user-rank.js';
 
 const FILMS_COUNT = 30;
 const FILMS_COUNT_PER_STEP = 5;
@@ -18,6 +19,7 @@ const EXTRA_COUNT = 2;
 const films = new Array(FILMS_COUNT).fill(null).map(generateFilmCard);
 // const comments = new Array(films[0].commentsCount).fill(null).map(generateFilmComments);
 const filters = generateFilters(films);
+const userRank = getRank(films);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -25,7 +27,7 @@ const render = (container, template, place) => {
 
 // Header
 const siteHeaderElement = document.querySelector('.header');
-render(siteHeaderElement, createUserRank(), 'beforeend');
+render(siteHeaderElement, createUserRank(userRank), 'beforeend');
 
 const siteMainElement = document.querySelector('.main');
 

@@ -4,7 +4,7 @@ const UserRanks = {
   MOVIE_BUFF: 'Movie Buff',
 };
 
-const generateRank = (filmsCount) => {
+const getRankName = (filmsCount) => {
   if (filmsCount <= 10 && filmsCount > 0) {
     return UserRanks.NOVICE;
   }
@@ -20,7 +20,7 @@ const generateRank = (filmsCount) => {
 
 export const getRank = (films) => {
   const countHistory = films.filter((film) => film.isWatched).length;
-  return generateRank(countHistory);
+  return getRankName(countHistory);
 };
 
 

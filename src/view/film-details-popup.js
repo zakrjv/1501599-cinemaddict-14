@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
+import {createElement} from '../utils.js';
 
-export const createPopupFilmDetails = (filmCard) => {
+const createPopupFilmDetails = (filmCard) => {
   const {
     poster,
     ageRating,
@@ -132,3 +133,26 @@ export const createPopupFilmDetails = (filmCard) => {
   </form>
 </section>`;
 };
+
+export default class PopupFilmDetails {
+  constructor(filmCard) {
+    this._element = null;
+    this._filmCard = filmCard;
+  }
+
+  getTemplate() {
+    return createPopupFilmDetails(this._filmCard);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

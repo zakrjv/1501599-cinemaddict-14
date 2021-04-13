@@ -27,10 +27,41 @@ const generateDate = () => {
   return dayjs().add(Gap, 'day').add(Gap, 'hour').add(Gap, 'minute').subtract(yearGap, 'year').toDate();
 };
 
+const renderTemplate = (container, template, place) => {
+  container.insertAdjacentHTML(place, template);
+};
+
+const RenderPosition = {
+  AFTERBEGIN: 'afterbegin',
+  BEFOREEND: 'beforeend',
+};
+
+const renderElement = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+const createElement = (template) => {
+  const newElement = document.createElement('div');
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
 
 export {
   getRandomInteger,
   getRandomArrayElement,
   getRandomArray,
-  generateDate
+  generateDate,
+  renderTemplate,
+  renderElement,
+  RenderPosition,
+  createElement
 };

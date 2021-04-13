@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
+import {createElement} from '../utils.js';
 
-export const createFilmCard = (filmCard) => {
+const createFilmCard = (filmCard) => {
   const DESC_LENGTH = 140;
 
   const {
@@ -38,3 +39,26 @@ export const createFilmCard = (filmCard) => {
           </div>
         </article>`;
 };
+
+export default class FilmCard {
+  constructor(filmCard) {
+    this._element = null;
+    this._filmCard = filmCard;
+  }
+
+  getTemplate() {
+    return createFilmCard(this._filmCard);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

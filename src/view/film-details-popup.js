@@ -152,8 +152,14 @@ export default class PopupFilmDetails {
     return this._element;
   }
 
-  ClosePopup() {
+  closePopupEvent() {
+    const bodyElement = document.querySelector('body');
     const popupCloseButton = this._element.querySelector('.film-details__close-btn');
+
+    popupCloseButton.addEventListener('click', () => {
+      bodyElement.removeChild(this.getElement());
+      bodyElement.classList.remove('hide-overflow');
+    });
   }
 
   removeElement() {

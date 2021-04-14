@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {createElement, render, RenderPosition} from '../utils.js';
+import {createElement} from '../utils.js';
 import PopupFilmDetailsView from '../view/film-details-popup.js';
 
 const createFilmCard = (filmCard) => {
@@ -60,7 +60,7 @@ export default class FilmCard {
   }
 
   openPopupEvent() {
-    const bodyElement = document.querySelector('main');
+    const bodyElement = document.querySelector('body');
     const filmImage = this._element.querySelector('.film-card__poster');
     const filmComments = this._element.querySelector('.film-card__comments');
     const filmTitle = this._element.querySelector('.film-card__title');
@@ -68,9 +68,11 @@ export default class FilmCard {
     [filmImage, filmComments, filmTitle].forEach((element) => {
       element.addEventListener('click', () => {
         const popupFilmDetails = new PopupFilmDetailsView(this._filmCard);
+
         bodyElement.appendChild(popupFilmDetails.getElement());
         bodyElement.classList.add('hide-overflow');
-        // render(bodyElement, popupFilmDetails.getElement(), RenderPosition.BEFOREEND);
+
+        popupFilmDetails.closePopupEvent();
       });
     });
   }

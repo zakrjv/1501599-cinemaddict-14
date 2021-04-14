@@ -152,6 +152,10 @@ export default class PopupFilmDetails {
     return this._element;
   }
 
+  ClosePopup() {
+    const popupCloseButton = this._element.querySelector('.film-details__close-btn');
+  }
+
   removeElement() {
     this._element = null;
   }

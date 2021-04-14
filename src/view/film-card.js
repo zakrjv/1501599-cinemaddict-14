@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import {createElement} from '../utils.js';
+import {createElement, render, RenderPosition} from '../utils.js';
+import PopupFilmDetailsView from '../view/film-details-popup.js';
 
 const createFilmCard = (filmCard) => {
   const DESC_LENGTH = 140;
@@ -56,6 +57,22 @@ export default class FilmCard {
     }
 
     return this._element;
+  }
+
+  openPopupEvent() {
+    const bodyElement = document.querySelector('main');
+    const filmImage = this._element.querySelector('.film-card__poster');
+    const filmComments = this._element.querySelector('.film-card__comments');
+    const filmTitle = this._element.querySelector('.film-card__title');
+
+    [filmImage, filmComments, filmTitle].forEach((element) => {
+      element.addEventListener('click', () => {
+        const popupFilmDetails = new PopupFilmDetailsView(this._filmCard);
+        bodyElement.appendChild(popupFilmDetails.getElement());
+        bodyElement.classList.add('hide-overflow');
+        // render(bodyElement, popupFilmDetails.getElement(), RenderPosition.BEFOREEND);
+      });
+    });
   }
 
   removeElement() {

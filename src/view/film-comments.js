@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
+import {createElement} from '../utils.js';
 
-export const createFilmComment = (comment) => {
+const createFilmComment = (comment) => {
   const {
     text,
     emotion,
@@ -22,3 +23,26 @@ export const createFilmComment = (comment) => {
             </div>
           </li>`;
 };
+
+export default class FilmComment {
+  constructor(comment) {
+    this._element = null;
+    this._comment = comment;
+  }
+
+  getTemplate() {
+    return createFilmComment(this._comment);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

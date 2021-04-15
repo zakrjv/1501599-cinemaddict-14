@@ -59,7 +59,7 @@ export default class FilmCard {
     return this._element;
   }
 
-  openPopupEvent() {
+  setListenerOpenPopup() {
     const bodyElement = document.querySelector('body');
     const filmImage = this._element.querySelector('.film-card__poster');
     const filmComments = this._element.querySelector('.film-card__comments');
@@ -72,7 +72,7 @@ export default class FilmCard {
         bodyElement.appendChild(popupFilmDetails.getElement());
         bodyElement.classList.add('hide-overflow');
 
-        popupFilmDetails.closePopupEvent();
+        popupFilmDetails.setListenerClosePopup();
       });
     });
   }

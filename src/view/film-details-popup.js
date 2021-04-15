@@ -152,7 +152,7 @@ export default class PopupFilmDetails {
     return this._element;
   }
 
-  closePopupEvent() {
+  setListenerClosePopup() {
     const bodyElement = document.querySelector('body');
     const popupCloseButton = this._element.querySelector('.film-details__close-btn');
 

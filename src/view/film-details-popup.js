@@ -156,9 +156,24 @@ export default class PopupFilmDetails {
     const bodyElement = document.querySelector('body');
     const popupCloseButton = this._element.querySelector('.film-details__close-btn');
 
-    popupCloseButton.addEventListener('click', () => {
+    const hidePopup = () => {
       bodyElement.removeChild(this.getElement());
       bodyElement.classList.remove('hide-overflow');
+    };
+
+    const onEscKeyDown = (evt) => {
+      if (evt.key === 'Escape' || evt.key === 'Esc') {
+        evt.preventDefault();
+        hidePopup();
+        document.removeEventListener('keydown', onEscKeyDown);
+      }
+    };
+
+    document.addEventListener('keydown', onEscKeyDown);
+
+    popupCloseButton.addEventListener('click', () => {
+      hidePopup();
+      document.removeEventListener('keydown', onEscKeyDown);
     });
   }
 

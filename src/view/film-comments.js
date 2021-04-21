@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {createElement} from '../utils.js';
+import AbstractView from '../view/abstract.js';
 
 const createFilmComment = (comment) => {
   const {
@@ -24,17 +24,13 @@ const createFilmComment = (comment) => {
           </li>`;
 };
 
-export default class FilmComment {
+export default class FilmComment extends AbstractView {
   constructor(comment) {
-    this._element = null;
+    super();
     this._comment = comment;
   }
 
   getTemplate() {
     return createFilmComment(this._comment);
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

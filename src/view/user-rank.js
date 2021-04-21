@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractView from '../view/abstract.js';
 
 const createUserRank = (rank) => {
   return `<section class="header__profile profile">
@@ -7,25 +7,13 @@ const createUserRank = (rank) => {
   </section>`;
 };
 
-export default class SiteUserRank {
+export default class SiteUserRank extends AbstractView {
   constructor(rank) {
-    this._element = null;
+    super();
     this._rank = rank;
   }
 
   getTemplate() {
     return createUserRank(this._rank);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

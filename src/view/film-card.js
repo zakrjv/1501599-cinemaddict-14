@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import {createElement} from '../utils.js';
 import PopupFilmDetailsView from '../view/film-details-popup.js';
+import AbstractView from '../view/abstract.js';
 
 const createFilmCard = (filmCard) => {
   const DESC_LENGTH = 140;
@@ -41,9 +41,9 @@ const createFilmCard = (filmCard) => {
         </article>`;
 };
 
-export default class FilmCard {
+export default class FilmCard extends AbstractView {
   constructor(filmCard) {
-    this._element = null;
+    super();
     this._filmCard = filmCard;
   }
 
@@ -51,16 +51,8 @@ export default class FilmCard {
     return createFilmCard(this._filmCard);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
   setListenerOpenPopup() {
-    const bodyElement = document.querySelector('body');
+    const bodyElement = document.body;
     const filmImage = this._element.querySelector('.film-card__poster');
     const filmComments = this._element.querySelector('.film-card__comments');
     const filmTitle = this._element.querySelector('.film-card__title');
@@ -75,9 +67,5 @@ export default class FilmCard {
         popupFilmDetails.setListenerClosePopup();
       });
     });
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

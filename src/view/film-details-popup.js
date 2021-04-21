@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import {createElement} from '../utils.js';
 import FilmCommentView from '../view/film-comments.js';
+import AbstractView from '../view/abstract.js';
 
 const createPopupFilmDetails = (filmCard) => {
   const {
@@ -140,9 +140,9 @@ const createPopupFilmDetails = (filmCard) => {
 </section>`;
 };
 
-export default class PopupFilmDetails {
+export default class PopupFilmDetails extends AbstractView {
   constructor(filmCard) {
-    this._element = null;
+    super();
     this._filmCard = filmCard;
   }
 
@@ -150,16 +150,8 @@ export default class PopupFilmDetails {
     return createPopupFilmDetails(this._filmCard);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
   setListenerClosePopup() {
-    const bodyElement = document.querySelector('body');
+    const bodyElement = document.body;
     const popupCloseButton = this._element.querySelector('.film-details__close-btn');
 
     const hidePopup = () => {
@@ -181,9 +173,5 @@ export default class PopupFilmDetails {
       hidePopup();
       document.removeEventListener('keydown', onEscKeyDown);
     });
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

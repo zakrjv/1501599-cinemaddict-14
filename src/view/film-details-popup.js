@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import {createElement} from '../utils.js';
+import FilmCommentView from '../view/film-comments.js';
 
 const createPopupFilmDetails = (filmCard) => {
   const {
@@ -10,7 +11,7 @@ const createPopupFilmDetails = (filmCard) => {
     director,
     releaseDate,
     screenwriters,
-    commentsCount,
+    comments,
     cast,
     rating,
     country,
@@ -18,6 +19,10 @@ const createPopupFilmDetails = (filmCard) => {
     genres,
     description,
   } = filmCard;
+
+  const commentsList = filmCard.comments.map((comment) => {
+    return new FilmCommentView(comment).getTemplate();
+  });
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -94,9 +99,10 @@ const createPopupFilmDetails = (filmCard) => {
 
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
         <ul class="film-details__comments-list">
+            ${commentsList}
         </ul>
 
         <div class="film-details__new-comment">

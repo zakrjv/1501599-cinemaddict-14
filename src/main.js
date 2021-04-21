@@ -4,11 +4,9 @@ import SiteUserRankView from './view/user-rank.js';
 import FilmsTemplateView from './view/films-template.js';
 import FilmCardView from './view/film-card.js';
 import ButtonShowMoreView from './view/button-show-more';
-import FilmCommentView from './view/film-comments.js';
 import SiteFooterView from './view/footer.js';
 import NoFilmsView from './view/no-films.js';
 import {generateFilmCard} from './mock/film-card.js';
-import {generateFilmComments} from './mock/film-comments.js';
 import {generateFilters} from './mock/filter.js';
 import {getRank} from './mock/user-rank.js';
 import {render, RenderPosition} from './utils.js';
@@ -101,13 +99,6 @@ if (films.length === 0) {
     const commentedFilmCard = new FilmCardView(commentedFilm[i]);
     render(filmListContainerMostCommented, commentedFilmCard.getElement());
     commentedFilmCard.setListenerOpenPopup();
-  }
-
-  // Comments
-  const comments = new Array(films[0].commentsCount).fill(null).map(generateFilmComments);
-  const commentsElement = document.querySelector('.film-details__comments-list');
-  for (let i = 0; i < films[0].commentsCount; i++) {
-    render(commentsElement, new FilmCommentView(comments[i]).getElement());
   }
 }
 

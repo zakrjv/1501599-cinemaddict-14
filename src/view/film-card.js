@@ -13,7 +13,7 @@ const createFilmCard = (filmCard) => {
     duration,
     genres,
     description,
-    commentsCount,
+    comments,
   } = filmCard;
 
   const mainGenre = genres.slice(0, 1);
@@ -32,7 +32,7 @@ const createFilmCard = (filmCard) => {
           </p>
           <img src="./images/posters/${poster}" alt="" class="film-card__poster">
           <p class="film-card__description">${description.length >= DESC_LENGTH ? truncatesDescription(description) : description}</p>
-          <a class="film-card__comments">${commentsCount}</a>
+          <a class="film-card__comments">${comments.length}</a>
           <div class="film-card__controls">
             <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist" type="button">Add to watchlist</button>
             <button class="film-card__controls-item button film-card__controls-item--mark-as-watched" type="button">Mark as watched</button>

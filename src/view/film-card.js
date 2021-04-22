@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import PopupFilmDetailsView from '../view/film-details-popup.js';
 import AbstractView from '../view/abstract.js';
 
 const createFilmCard = (filmCard) => {
@@ -45,27 +44,26 @@ export default class FilmCard extends AbstractView {
   constructor(filmCard) {
     super();
     this._filmCard = filmCard;
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCard(this._filmCard);
   }
 
-  setListenerOpenPopup() {
-    const bodyElement = document.body;
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
+  setClickHandler(callback) {
+    this._callback.click = callback;
     const filmImage = this._element.querySelector('.film-card__poster');
     const filmComments = this._element.querySelector('.film-card__comments');
     const filmTitle = this._element.querySelector('.film-card__title');
 
     [filmImage, filmComments, filmTitle].forEach((element) => {
-      element.addEventListener('click', () => {
-        const popupFilmDetails = new PopupFilmDetailsView(this._filmCard);
-
-        bodyElement.appendChild(popupFilmDetails.getElement());
-        bodyElement.classList.add('hide-overflow');
-
-        popupFilmDetails.setListenerClosePopup();
-      });
+      element.addEventListener('click', this._clickHandler);
     });
   }
 }

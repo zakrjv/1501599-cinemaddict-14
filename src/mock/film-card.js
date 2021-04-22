@@ -3,7 +3,7 @@ import {
   getRandomArrayElement,
   getRandomArray,
   generateDate
-} from '../utils.js';
+} from '../utils/common.js';
 import {generateFilmComments} from './film-comments.js';
 
 const POSTERS = [

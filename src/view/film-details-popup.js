@@ -144,34 +144,20 @@ export default class PopupFilmDetails extends AbstractView {
   constructor(filmCard) {
     super();
     this._filmCard = filmCard;
+    this._buttonCloseHandler = this._buttonCloseHandler.bind(this);
   }
 
   getTemplate() {
     return createPopupFilmDetails(this._filmCard);
   }
 
-  setListenerClosePopup() {
-    const bodyElement = document.body;
-    const popupCloseButton = this._element.querySelector('.film-details__close-btn');
+  _buttonCloseHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+  }
 
-    const hidePopup = () => {
-      bodyElement.removeChild(this.getElement());
-      bodyElement.classList.remove('hide-overflow');
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        hidePopup();
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-
-    document.addEventListener('keydown', onEscKeyDown);
-
-    popupCloseButton.addEventListener('click', () => {
-      hidePopup();
-      document.removeEventListener('keydown', onEscKeyDown);
-    });
+  setClickButtonCloseHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._buttonCloseHandler);
   }
 }

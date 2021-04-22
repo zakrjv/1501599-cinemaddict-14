@@ -1,7 +1,7 @@
 import {
   getRandomArrayElement,
   generateDate
-} from '../utils.js';
+} from '../utils/common';
 
 const TEXT = [
   'Interesting setting and a good cast',

@@ -1,10 +1,10 @@
-import SiteMenuFilterView from './view/filters.js';
-import SiteMenuSortView from './view/sort.js';
-import SiteUserRankView from './view/user-rank.js';
-import FilmsTemplateView from './view/films-template.js';
+import MenuFiltersView from './view/menu-filters.js';
+import SiteMenuSortView from './view/site-menu-sort.js';
+import UserRankView from './view/user-rank.js';
+import FilmsSectionsView from './view/films-sections.js';
 import FilmCardView from './view/film-card.js';
 import ButtonShowMoreView from './view/button-show-more';
-import SiteFooterView from './view/footer.js';
+import SiteFooterView from './view/site-footer.js';
 import NoFilmsView from './view/no-films.js';
 import PopupFilmDetailsView from './view/film-details-popup.js';
 import {generateFilmCard} from './mock/film-card.js';
@@ -54,19 +54,19 @@ const renderFilmCard = (container, film) => {
 
 // Header
 const siteHeaderElement = document.querySelector('.header');
-render(siteHeaderElement, new SiteUserRankView(userRank));
+render(siteHeaderElement, new UserRankView(userRank));
 
 const siteMainElement = document.querySelector('.main');
 
 // Menu
-render(siteMainElement, new SiteMenuFilterView(filters), RenderPosition.AFTERBEGIN);
+render(siteMainElement, new MenuFiltersView(filters), RenderPosition.AFTERBEGIN);
 render(siteMainElement, new SiteMenuSortView());
 
 // Main
 if (films.length === 0) {
   render(siteMainElement, new NoFilmsView());
 } else {
-  render(siteMainElement, new FilmsTemplateView());
+  render(siteMainElement, new FilmsSectionsView());
 
   const filmsElement = siteMainElement.querySelector('.films');
   const filmListAllFilms = filmsElement.querySelector('.films-list--all-films');

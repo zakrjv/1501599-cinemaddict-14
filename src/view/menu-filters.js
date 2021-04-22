@@ -28,7 +28,7 @@ const createFilterMenu = (filterItems) => {
   );
 };
 
-export default class SiteMenuFilter extends AbstractView {
+export default class MenuFilters extends AbstractView {
   constructor(filters) {
     super();
     this._filters = filters;

@@ -7,7 +7,7 @@ const createUserRank = (rank) => {
   </section>`;
 };
 
-export default class SiteUserRank extends AbstractView {
+export default class UserRank extends AbstractView {
   constructor(rank) {
     super();
     this._rank = rank;

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import FilmCommentView from '../view/film-comments.js';
+import FilmCommentsView from '../view/film-comments.js';
 import AbstractView from '../view/abstract.js';
 
 const createPopupFilmDetails = (filmCard) => {
@@ -21,7 +21,7 @@ const createPopupFilmDetails = (filmCard) => {
   } = filmCard;
 
   const commentsList = filmCard.comments.map((comment) => {
-    return new FilmCommentView(comment).getTemplate();
+    return new FilmCommentsView(comment).getTemplate();
   });
 
   return `<section class="film-details">

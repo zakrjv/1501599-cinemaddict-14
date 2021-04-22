@@ -12,7 +12,7 @@ import {generateFilters} from './mock/filter.js';
 import {getRank} from './mock/user-rank.js';
 import {render, RenderPosition} from './utils/render.js';
 
-const FILMS_COUNT = 20;
+const FILMS_COUNT = 10;
 const FILMS_COUNT_PER_STEP = 5;
 
 const films = new Array(FILMS_COUNT).fill(null).map(generateFilmCard);
@@ -81,25 +81,22 @@ if (films.length === 0) {
 
   // Show more button
   if (films.length > FILMS_COUNT_PER_STEP) {
-    let renderedTaskCount = FILMS_COUNT_PER_STEP;
+    let renderedFilmCount = FILMS_COUNT_PER_STEP;
 
-    render(filmListAllFilms, new ButtonShowMoreView());
+    const showMoreComponent = new ButtonShowMoreView();
+    render(filmListAllFilms, showMoreComponent);
 
-    const showMoreButton = document.querySelector('.films-list__show-more');
-
-    showMoreButton.addEventListener('click', (evt) => {
-      evt.preventDefault();
-
+    showMoreComponent.setClickHandler(() => {
       films
-        .slice(renderedTaskCount, renderedTaskCount + FILMS_COUNT_PER_STEP)
+        .slice(renderedFilmCount, renderedFilmCount + FILMS_COUNT_PER_STEP)
         .forEach((film) => {
           renderFilmCard(filmListContainerFilms, film);
         });
 
-      renderedTaskCount += FILMS_COUNT_PER_STEP;
+      renderedFilmCount += FILMS_COUNT_PER_STEP;
 
-      if (renderedTaskCount >= films.length) {
-        showMoreButton.remove();
+      if (renderedFilmCount >= films.length) {
+        showMoreComponent.getElement().remove();
       }
     });
   }

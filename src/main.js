@@ -6,7 +6,7 @@ import FilmCardView from './view/film-card.js';
 import ButtonShowMoreView from './view/button-show-more';
 import SiteFooterView from './view/site-footer.js';
 import NoFilmsView from './view/no-films.js';
-import PopupFilmDetailsView from './view/film-details-popup.js';
+import PopupFilmDetailsView from './view/popup-film-details.js';
 import {generateFilmCard} from './mock/film-card.js';
 import {generateFilters} from './mock/filter.js';
 import {getRank} from './mock/user-rank.js';

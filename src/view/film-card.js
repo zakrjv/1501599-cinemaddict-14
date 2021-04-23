@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
-import {createElement} from '../utils.js';
-import PopupFilmDetailsView from '../view/film-details-popup.js';
+import AbstractView from '../view/abstract.js';
 
 const createFilmCard = (filmCard) => {
   const DESC_LENGTH = 140;
@@ -13,7 +12,7 @@ const createFilmCard = (filmCard) => {
     duration,
     genres,
     description,
-    commentsCount,
+    comments,
   } = filmCard;
 
   const mainGenre = genres.slice(0, 1);
@@ -32,7 +31,7 @@ const createFilmCard = (filmCard) => {
           </p>
           <img src="./images/posters/${poster}" alt="" class="film-card__poster">
           <p class="film-card__description">${description.length >= DESC_LENGTH ? truncatesDescription(description) : description}</p>
-          <a class="film-card__comments">${commentsCount}</a>
+          <a class="film-card__comments">${comments.length}</a>
           <div class="film-card__controls">
             <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist" type="button">Add to watchlist</button>
             <button class="film-card__controls-item button film-card__controls-item--mark-as-watched" type="button">Mark as watched</button>
@@ -41,43 +40,30 @@ const createFilmCard = (filmCard) => {
         </article>`;
 };
 
-export default class FilmCard {
+export default class FilmCard extends AbstractView {
   constructor(filmCard) {
-    this._element = null;
+    super();
     this._filmCard = filmCard;
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCard(this._filmCard);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  setListenerOpenPopup() {
-    const bodyElement = document.querySelector('body');
+  setClickHandler(callback) {
+    this._callback.click = callback;
     const filmImage = this._element.querySelector('.film-card__poster');
     const filmComments = this._element.querySelector('.film-card__comments');
     const filmTitle = this._element.querySelector('.film-card__title');
 
     [filmImage, filmComments, filmTitle].forEach((element) => {
-      element.addEventListener('click', () => {
-        const popupFilmDetails = new PopupFilmDetailsView(this._filmCard);
-
-        bodyElement.appendChild(popupFilmDetails.getElement());
-        bodyElement.classList.add('hide-overflow');
-
-        popupFilmDetails.setListenerClosePopup();
-      });
+      element.addEventListener('click', this._clickHandler);
     });
   }
 
-  removeElement() {
-    this._element = null;
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
   }
 }

@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractView from '../view/abstract.js';
 
 const createFooterStatistics = (filmsCount) => {
   return `<section class="footer__statistics">
@@ -6,25 +6,13 @@ const createFooterStatistics = (filmsCount) => {
   </section>`;
 };
 
-export default class SiteFooter {
+export default class SiteFooter extends AbstractView {
   constructor(filmsCount) {
-    this._element = null;
+    super();
     this._filmsCount = filmsCount;
   }
 
   getTemplate() {
     return createFooterStatistics(this._filmsCount);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

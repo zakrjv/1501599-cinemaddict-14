@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractView from '../view/abstract.js';
 
 const createSortMenu = () => {
   return `<ul class="sort">
@@ -8,24 +8,8 @@ const createSortMenu = () => {
 </ul>`;
 };
 
-export default class SiteMenuSort {
-  constructor() {
-    this._element = null;
-  }
-
+export default class SiteMenuSort extends AbstractView {
   getTemplate() {
     return createSortMenu();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

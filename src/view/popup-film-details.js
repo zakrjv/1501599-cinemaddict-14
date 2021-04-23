@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import {createElement} from '../utils.js';
+import FilmCommentsView from '../view/film-comments.js';
+import AbstractView from '../view/abstract.js';
 
 const createPopupFilmDetails = (filmCard) => {
   const {
@@ -10,7 +11,7 @@ const createPopupFilmDetails = (filmCard) => {
     director,
     releaseDate,
     screenwriters,
-    commentsCount,
+    comments,
     cast,
     rating,
     country,
@@ -18,6 +19,10 @@ const createPopupFilmDetails = (filmCard) => {
     genres,
     description,
   } = filmCard;
+
+  const commentsList = filmCard.comments.map((comment) => {
+    return new FilmCommentsView(comment).getTemplate();
+  });
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -94,9 +99,10 @@ const createPopupFilmDetails = (filmCard) => {
 
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
         <ul class="film-details__comments-list">
+            ${commentsList}
         </ul>
 
         <div class="film-details__new-comment">
@@ -134,50 +140,24 @@ const createPopupFilmDetails = (filmCard) => {
 </section>`;
 };
 
-export default class PopupFilmDetails {
+export default class PopupFilmDetails extends AbstractView {
   constructor(filmCard) {
-    this._element = null;
+    super();
     this._filmCard = filmCard;
+    this._buttonCloseHandler = this._buttonCloseHandler.bind(this);
   }
 
   getTemplate() {
     return createPopupFilmDetails(this._filmCard);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  setClickButtonCloseHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._buttonCloseHandler);
   }
 
-  setListenerClosePopup() {
-    const bodyElement = document.querySelector('body');
-    const popupCloseButton = this._element.querySelector('.film-details__close-btn');
-
-    const hidePopup = () => {
-      bodyElement.removeChild(this.getElement());
-      bodyElement.classList.remove('hide-overflow');
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        hidePopup();
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-
-    document.addEventListener('keydown', onEscKeyDown);
-
-    popupCloseButton.addEventListener('click', () => {
-      hidePopup();
-      document.removeEventListener('keydown', onEscKeyDown);
-    });
-  }
-
-  removeElement() {
-    this._element = null;
+  _buttonCloseHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
   }
 }

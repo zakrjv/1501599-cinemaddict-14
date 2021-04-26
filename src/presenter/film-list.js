@@ -3,7 +3,7 @@ import SiteMenuSortView from '../view/site-menu-sort.js';
 import NoFilmsView from '../view/no-films.js';
 import ButtonShowMoreView from '../view/button-show-more';
 import FilmCardView from '../view/film-card.js';
-import SiteFooterView from '../view/footer-statistics.js';
+import FooterStatisticsView from '../view/footer-statistics.js';
 import PopupFilmDetailsView from '../view/popup-film-details.js';
 import {render} from '../utils/render';
 
@@ -11,7 +11,8 @@ const FILMS_COUNT_PER_STEP = 5;
 
 export default class FilmList {
   constructor(movieListContainer) {
-    this._movieListContainer = movieListContainer;
+    this._siteElementContainer = movieListContainer;
+    this._renderedFilmCount = FILMS_COUNT_PER_STEP;
 
     this._filmsSectionsComponent = new FilmsSectionsView();
     this._siteMenuSortComponent = new SiteMenuSortView();
@@ -20,6 +21,8 @@ export default class FilmList {
 
     this._allFilmsContainer = this._filmsSectionsComponent.getElement().querySelector('.films-list--all-films');
     this._filmListContainer = this._filmsSectionsComponent.getElement().querySelector('.films-list__container');
+
+    this._handleButtonShowMoreClick = this._handleButtonShowMoreClick.bind(this);
   }
 
   init(films) {
@@ -28,7 +31,7 @@ export default class FilmList {
   }
 
   _renderSort() {
-    render(this._movieListContainer, this._siteMenuSortComponent);
+    render(this._siteElementContainer, this._siteMenuSortComponent);
   }
 
   _renderFilm(container, film) {
@@ -64,7 +67,7 @@ export default class FilmList {
   }
 
   _renderFilms(from, to) {
-    render(this._movieListContainer, this._filmsSectionsComponent);
+    render(this._siteElementContainer, this._filmsSectionsComponent);
     this._films
       .slice(from, to)
       .forEach((film) => {
@@ -73,27 +76,24 @@ export default class FilmList {
   }
 
   _renderNoFilms() {
-    render(this._movieListContainer, this._noFilmsComponent);
+    render(this._siteElementContainer, this._noFilmsComponent);
+  }
+
+  _handleButtonShowMoreClick() {
+    this._renderFilms(this._renderedFilmCount, this._renderedFilmCount + FILMS_COUNT_PER_STEP);
+    this._renderedFilmCount += FILMS_COUNT_PER_STEP;
+
+    if (this._renderedFilmCount >= this._films.length) {
+      this._buttonShowMoreComponent.getElement().remove();
+    }
   }
 
   _renderButtonShowMore() {
-    let renderedFilmCount = FILMS_COUNT_PER_STEP;
     render(this._allFilmsContainer, this._buttonShowMoreComponent);
 
-    this._buttonShowMoreComponent.setClickHandler(() => {
-      this._films
-        .slice(renderedFilmCount, renderedFilmCount + FILMS_COUNT_PER_STEP)
-        .forEach((film) => {
-          this._renderFilm(this._filmListContainer, film);
-        });
-
-      renderedFilmCount += FILMS_COUNT_PER_STEP;
-
-      if (renderedFilmCount >= this._films.length) {
-        this._buttonShowMoreComponent.getElement().remove();
-      }
-    });
+    this._buttonShowMoreComponent.setClickHandler(this._handleButtonShowMoreClick);
   }
+
 
   _renderFilmList() {
     this._renderFilms(0, Math.min(this._films.length, FILMS_COUNT_PER_STEP));
@@ -105,7 +105,7 @@ export default class FilmList {
 
   _renderSiteFooter() {
     const footerElement = document.querySelector('.footer__statistics');
-    render(footerElement, new SiteFooterView(this._films.length));
+    render(footerElement, new FooterStatisticsView(this._films.length));
   }
 
   _renderBoard() {

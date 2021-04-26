@@ -8,6 +8,7 @@ import FilmListPresenter from './presenter/film-list.js';
 
 const FILMS_COUNT = 30;
 const siteMainElement = document.querySelector('.main');
+const siteHeaderElement = document.querySelector('.header');
 
 const films = new Array(FILMS_COUNT).fill(null).map(generateFilmCard);
 const filters = generateFilters(films);
@@ -16,7 +17,6 @@ const filmsPresenter = new FilmListPresenter(siteMainElement);
 
 filmsPresenter.init(films);
 
-const siteHeaderElement = document.querySelector('.header');
 render(siteHeaderElement, new UserRankView(userRank));
 render(siteMainElement, new MenuFiltersView(filters), RenderPosition.AFTERBEGIN);
 

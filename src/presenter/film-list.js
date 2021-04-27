@@ -2,9 +2,8 @@ import FilmsSectionsView from '../view/films-sections.js';
 import SiteMenuSortView from '../view/site-menu-sort.js';
 import NoFilmsView from '../view/no-films.js';
 import ButtonShowMoreView from '../view/button-show-more';
-import FilmCardView from '../view/film-card.js';
 import FooterStatisticsView from '../view/footer-statistics.js';
-import PopupFilmDetailsView from '../view/popup-film-details.js';
+import FilmPresenter from '../presenter/film.js';
 import {render} from '../utils/render';
 
 const FILMS_COUNT_PER_STEP = 5;
@@ -34,44 +33,49 @@ export default class FilmList {
     render(this._siteElementContainer, this._siteMenuSortComponent);
   }
 
-  _renderFilm(container, film) {
-    const bodyElement = document.body;
-    const filmCard = new FilmCardView(film);
-    const popupFilmDetails = new PopupFilmDetailsView(film);
-
-    render(container, filmCard);
-
-    filmCard.setClickHandler(() => {
-      bodyElement.appendChild(popupFilmDetails.getElement());
-      bodyElement.classList.add('hide-overflow');
-
-      const onEscKeyDown = (evt) => {
-        if (evt.key === 'Escape' || evt.key === 'Esc') {
-          evt.preventDefault();
-          hidePopup();
-        }
-      };
-
-      const hidePopup = () => {
-        bodyElement.removeChild(popupFilmDetails.getElement());
-        bodyElement.classList.remove('hide-overflow');
-        document.removeEventListener('keydown', onEscKeyDown);
-      };
-
-      document.addEventListener('keydown', onEscKeyDown);
-
-      popupFilmDetails.setClickButtonCloseHandler(() => {
-        hidePopup();
-      });
-    });
+  _renderFilm(film) {
+    const filmPresenter = new FilmPresenter(this._filmListContainer);
+    filmPresenter.init(film);
   }
+
+  // _renderFilm(container, film) {
+  //   const bodyElement = document.body;
+  //   const filmCard = new FilmCardView(film);
+  //   const popupFilmDetails = new PopupFilmDetailsView(film);
+  //
+  //   render(container, filmCard);
+  //
+  //   filmCard.setClickHandler(() => {
+  //     bodyElement.appendChild(popupFilmDetails.getElement());
+  //     bodyElement.classList.add('hide-overflow');
+  //
+  //     const onEscKeyDown = (evt) => {
+  //       if (evt.key === 'Escape' || evt.key === 'Esc') {
+  //         evt.preventDefault();
+  //         hidePopup();
+  //       }
+  //     };
+  //
+  //     const hidePopup = () => {
+  //       bodyElement.removeChild(popupFilmDetails.getElement());
+  //       bodyElement.classList.remove('hide-overflow');
+  //       document.removeEventListener('keydown', onEscKeyDown);
+  //     };
+  //
+  //     document.addEventListener('keydown', onEscKeyDown);
+  //
+  //     popupFilmDetails.setClickButtonCloseHandler(() => {
+  //       hidePopup();
+  //     });
+  //   });
+  // }
 
   _renderFilms(from, to) {
     render(this._siteElementContainer, this._filmsSectionsComponent);
     this._films
       .slice(from, to)
       .forEach((film) => {
-        this._renderFilm(this._filmListContainer, film);
+        this._renderFilm(film);
       });
   }
 

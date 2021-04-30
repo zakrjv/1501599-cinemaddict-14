@@ -18,6 +18,9 @@ const createPopupFilmDetails = (filmCard) => {
     duration,
     genres,
     description,
+    isWatchlist,
+    isWatched,
+    isFavorites,
   } = filmCard;
 
   const commentsList = filmCard.comments.map((comment) => {
@@ -86,13 +89,13 @@ const createPopupFilmDetails = (filmCard) => {
       </div>
 
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isWatchlist ? ' checked' : ''}>
         <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched ? ' checked' : ''}>
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavorites ? ' checked' : ''}>
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>
@@ -144,11 +147,30 @@ export default class PopupFilmDetails extends AbstractView {
   constructor(filmCard) {
     super();
     this._filmCard = filmCard;
+
     this._buttonCloseHandler = this._buttonCloseHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
+    this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
+    this._watchedClickHandler = this._watchedClickHandler.bind(this);
   }
 
   getTemplate() {
     return createPopupFilmDetails(this._filmCard);
+  }
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector('.film-details__control-label--favorite').addEventListener('click', this._favoriteClickHandler);
+  }
+
+  setWatchlistClickHandler(callback) {
+    this._callback.watchlistClick = callback;
+    this.getElement().querySelector('.film-details__control-label--watchlist').addEventListener('click', this._watchlistClickHandler);
+  }
+
+  setWatchedClickHandler(callback) {
+    this._callback.watchedClick = callback;
+    this.getElement().querySelector('.film-details__control-label--watched').addEventListener('click', this._watchedClickHandler);
   }
 
   setClickButtonCloseHandler(callback) {
@@ -159,5 +181,17 @@ export default class PopupFilmDetails extends AbstractView {
   _buttonCloseHandler(evt) {
     evt.preventDefault();
     this._callback.click();
+  }
+
+  _favoriteClickHandler() {
+    this._callback.favoriteClick();
+  }
+
+  _watchlistClickHandler() {
+    this._callback.watchlistClick();
+  }
+
+  _watchedClickHandler() {
+    this._callback.watchedClick();
   }
 }

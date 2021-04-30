@@ -34,6 +34,7 @@ export default class FilmList {
 
     this._handleButtonShowMoreClick = this._handleButtonShowMoreClick.bind(this);
     this._handleFilmChange = this._handleFilmChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
   }
 
   init(films) {
@@ -49,15 +50,8 @@ export default class FilmList {
     render(this._siteElementContainer, this._siteMenuSortComponent);
   }
 
-  _handleFilmChange(updatedFilm) {
-    console.log(this._films.find((prevFilm) => prevFilm.id === updatedFilm.id));
-    this._films = updateItem(this._films, updatedFilm);
-    console.log(updatedFilm);
-    this._filmPresenter[updatedFilm.id].init(updatedFilm);
-  }
-
   _renderFilm(film, container) {
-    const filmPresenter = new FilmPresenter(container, this._handleFilmChange);
+    const filmPresenter = new FilmPresenter(container, this._handleFilmChange, this._handleModeChange);
     filmPresenter.init(film);
     this._filmPresenter[film.id] = filmPresenter;
   }
@@ -99,15 +93,6 @@ export default class FilmList {
     render(this._siteElementContainer, this._noFilmsComponent);
   }
 
-  _handleButtonShowMoreClick() {
-    this._renderFilms(this._renderedFilmCount, this._renderedFilmCount + FILMS_COUNT_PER_STEP);
-    this._renderedFilmCount += FILMS_COUNT_PER_STEP;
-
-    if (this._renderedFilmCount >= this._films.length) {
-      this._buttonShowMoreComponent.getElement().remove();
-    }
-  }
-
   _renderButtonShowMore() {
     render(this._allFilmsElement, this._buttonShowMoreComponent);
 
@@ -147,5 +132,27 @@ export default class FilmList {
       this._renderMostCommentedFilmsList();
       this._renderSiteFooter();
     }
+  }
+
+  _handleFilmChange(updatedFilm) {
+    // console.log(this._films.find((prevFilm) => prevFilm.id === updatedFilm.id));
+    this._films = updateItem(this._films, updatedFilm);
+    // console.log(updatedFilm);
+    this._filmPresenter[updatedFilm.id].init(updatedFilm);
+  }
+
+  _handleButtonShowMoreClick() {
+    this._renderFilms(this._renderedFilmCount, this._renderedFilmCount + FILMS_COUNT_PER_STEP);
+    this._renderedFilmCount += FILMS_COUNT_PER_STEP;
+
+    if (this._renderedFilmCount >= this._films.length) {
+      this._buttonShowMoreComponent.getElement().remove();
+    }
+  }
+
+  _handleModeChange() {
+    Object
+      .values(this._filmPresenter)
+      .forEach((presenter) => presenter.resetView());
   }
 }

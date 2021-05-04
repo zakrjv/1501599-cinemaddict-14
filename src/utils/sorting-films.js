@@ -3,7 +3,7 @@ const sortFilmsByRating = (films) => {
 };
 
 const sortFilmsByComments = (films) => {
-  return films.slice().sort((a, b) => a.comments.length > b.comments.length);
+  return films.slice().sort((a, b) => b.comments.length - a.comments.length);
 };
 
 export {

@@ -13,6 +13,9 @@ const createFilmCard = (filmCard) => {
     genres,
     description,
     comments,
+    isWatchlist,
+    isWatched,
+    isFavorites,
   } = filmCard;
 
   const mainGenre = genres.slice(0, 1);
@@ -33,9 +36,9 @@ const createFilmCard = (filmCard) => {
           <p class="film-card__description">${description.length >= DESC_LENGTH ? truncatesDescription(description) : description}</p>
           <a class="film-card__comments">${comments.length}</a>
           <div class="film-card__controls">
-            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist" type="button">Add to watchlist</button>
-            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched" type="button">Mark as watched</button>
-            <button class="film-card__controls-item button film-card__controls-item--favorite" type="button">Mark as favorite</button>
+            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${isWatchlist ? 'film-card__controls-item--active' : ''}" type="button">Add to watchlist</button>
+            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${isWatched ? 'film-card__controls-item--active' : ''}" type="button">Mark as watched</button>
+            <button class="film-card__controls-item button film-card__controls-item--favorite ${isFavorites ? 'film-card__controls-item--active' : ''}" type="button">Mark as favorite</button>
           </div>
         </article>`;
 };
@@ -44,7 +47,11 @@ export default class FilmCard extends AbstractView {
   constructor(filmCard) {
     super();
     this._filmCard = filmCard;
+
     this._clickHandler = this._clickHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
+    this._watchedClickHandler = this._watchedClickHandler.bind(this);
+    this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -62,8 +69,38 @@ export default class FilmCard extends AbstractView {
     });
   }
 
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector('.film-card__controls-item--favorite').addEventListener('click', this._favoriteClickHandler);
+  }
+
+  setWatchedClickHandler(callback) {
+    this._callback.watchedClick = callback;
+    this.getElement().querySelector('.film-card__controls-item--mark-as-watched').addEventListener('click', this._watchedClickHandler);
+  }
+
+  setWatchlistClickHandler(callback) {
+    this._callback.watchlistClick = callback;
+    this.getElement().querySelector('.film-card__controls-item--add-to-watchlist').addEventListener('click', this._watchlistClickHandler);
+  }
+
   _clickHandler(evt) {
     evt.preventDefault();
     this._callback.click();
+  }
+
+  _favoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
+  _watchedClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.watchedClick();
+  }
+
+  _watchlistClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.watchlistClick();
   }
 }

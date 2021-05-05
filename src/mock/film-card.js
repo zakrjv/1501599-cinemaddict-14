@@ -5,6 +5,7 @@ import {
   generateDate
 } from '../utils/common.js';
 import {generateFilmComments} from './film-comments.js';
+import {nanoid} from 'nanoid';
 
 const POSTERS = [
   'made-for-each-other.png',
@@ -103,6 +104,7 @@ const AGE_RATING = [
 
 export const generateFilmCard = () => {
   return {
+    id: nanoid(),
     poster: getRandomArrayElement(POSTERS),
     title: getRandomArrayElement(FILM_TITLES),
     originalTitle: getRandomArrayElement(FILM_TITLES),

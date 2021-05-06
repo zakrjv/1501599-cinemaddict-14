@@ -1,16 +1,15 @@
 import AllFilmsListView from '../view/all-films-list.js';
-
 import FilmMostCommentedView from '../view/film-most-commented.js';
 import FilmTopRatedView from '../view/film-top-rated.js';
-
 import SiteMenuSortView from '../view/site-menu-sort.js';
 import NoFilmsView from '../view/no-films.js';
 import ButtonShowMoreView from '../view/button-show-more';
 import FooterStatisticsView from '../view/footer-statistics.js';
 import FilmPresenter from '../presenter/film.js';
 import {render, remove} from '../utils/render';
-import {sortFilmsByRating, sortFilmsByComments} from '../utils/sorting-films.js';
+import {sortTopRatedFilms, sortFilmsByComments, sortFilmsByDate, sortFilmsByRating} from '../utils/sorting-films.js';
 import {updateItem} from '../utils/common.js';
+import {SortType} from '../const.js';
 
 const FILMS_COUNT_PER_STEP = 5;
 const EXTRA_FILMS_COUNT = 2;
@@ -20,6 +19,7 @@ export default class FilmList {
     this._siteElementContainer = movieListContainer;
     this._renderedFilmCount = FILMS_COUNT_PER_STEP;
     this._renderedExtraCount = EXTRA_FILMS_COUNT;
+    this._currentSortType = SortType.DEFAULT;
 
     this._allFilmsPresenter = {};
     this._topRatedFilmsPresenter = {};
@@ -41,12 +41,14 @@ export default class FilmList {
     this._handleButtonShowMoreClick = this._handleButtonShowMoreClick.bind(this);
     this._handleFilmChange = this._handleFilmChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
   init(films) {
     this._films = films.slice();
+    this._sourcedFilmCards = films.slice();
 
-    this._filmsTopRated = sortFilmsByRating(films.slice());
+    this._filmsTopRated = sortTopRatedFilms(films.slice());
     this._filmsMostCommented = sortFilmsByComments(films.slice());
 
     this._renderBoard();
@@ -54,6 +56,7 @@ export default class FilmList {
 
   _renderSort() {
     render(this._siteElementContainer, this._siteMenuSortComponent);
+    this._siteMenuSortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   _renderFilm(film, container) {
@@ -77,6 +80,21 @@ export default class FilmList {
     this._allFilmsPresenter = {};
     this._renderedFilmCount = FILMS_COUNT_PER_STEP;
     remove(this._buttonShowMoreComponent);
+  }
+
+  _sortFilms(sortType) {
+    switch (sortType) {
+      case SortType.RATING:
+        this._films.sort(sortFilmsByRating);
+        break;
+      case SortType.DATE:
+        this._films.sort(sortFilmsByDate);
+        break;
+      default:
+        this._films = this._sourcedFilmCards.slice();
+    }
+
+    this._currentSortType = sortType;
   }
 
   _renderTopRatedFilms(from, to) {
@@ -176,5 +194,14 @@ export default class FilmList {
       ... Object.values(this._mostCommentedFilmsPresenter),
     ]
       .forEach((presenter) => presenter.resetView());
+  }
+
+  _handleSortTypeChange(sortType) {
+    if (this._currentSortType === sortType) {
+      return;
+    }
+    this._sortFilms(sortType);
+    this._clearFilmList();
+    this._renderFilmsList();
   }
 }

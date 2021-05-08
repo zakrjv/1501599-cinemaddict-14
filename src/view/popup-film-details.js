@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import FilmCommentsView from '../view/film-comments.js';
-import AbstractView from '../view/abstract.js';
+import SmartView from './smart.js';
 
-const createPopupFilmDetails = (filmCard) => {
+const createPopupFilmDetails = (state) => {
   const {
     poster,
     ageRating,
@@ -21,9 +21,11 @@ const createPopupFilmDetails = (filmCard) => {
     isWatchlist,
     isWatched,
     isFavorites,
-  } = filmCard;
+    emojiChecked,
+    writtenComment,
+  } = state;
 
-  const commentsList = filmCard.comments.map((comment) => {
+  const commentsList = state.comments.map((comment) => {
     return new FilmCommentsView(comment).getTemplate();
   });
 
@@ -109,10 +111,12 @@ const createPopupFilmDetails = (filmCard) => {
         </ul>
 
         <div class="film-details__new-comment">
-          <div class="film-details__add-emoji-label"></div>
+          <div class="film-details__add-emoji-label">
+            ${emojiChecked ? `<img src="images/emoji/${emojiChecked}.png" width="55" height="55" alt="emoji-${emojiChecked}">` : ''}
+          </div>
 
           <label class="film-details__comment-label">
-            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
+            <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${writtenComment ? writtenComment : ''}</textarea>
           </label>
 
           <div class="film-details__emoji-list">
@@ -143,19 +147,24 @@ const createPopupFilmDetails = (filmCard) => {
 </section>`;
 };
 
-export default class PopupFilmDetails extends AbstractView {
+export default class PopupFilmDetails extends SmartView {
   constructor(filmCard) {
     super();
-    this._filmCard = filmCard;
+    this._state = PopupFilmDetails.parseFilmToState(filmCard);
 
     this._buttonCloseHandler = this._buttonCloseHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
     this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
     this._watchedClickHandler = this._watchedClickHandler.bind(this);
+
+    this._emojiClickHandler = this._emojiClickHandler.bind(this);
+    this._commentInputHandler = this._commentInputHandler.bind(this);
+
+    this._setInnerHandlers();
   }
 
   getTemplate() {
-    return createPopupFilmDetails(this._filmCard);
+    return createPopupFilmDetails(this._state);
   }
 
   setFavoriteClickHandler(callback) {
@@ -178,6 +187,23 @@ export default class PopupFilmDetails extends AbstractView {
     this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._buttonCloseHandler);
   }
 
+  restoreHandlers() {
+    this._setInnerHandlers();
+    this.setFavoriteClickHandler(this._callback.favoriteClick);
+    this.setWatchlistClickHandler(this._callback.watchlistClick);
+    this.setWatchedClickHandler(this._callback.watchedClick);
+    this.setClickButtonCloseHandler(this._callback.click);
+  }
+
+  _setInnerHandlers() {
+    this.getElement()
+      .querySelector('.film-details__emoji-list')
+      .addEventListener('change', this._emojiClickHandler);
+    this.getElement()
+      .querySelector('.film-details__comment-input')
+      .addEventListener('input', this._commentInputHandler);
+  }
+
   _buttonCloseHandler(evt) {
     evt.preventDefault();
     this._callback.click();
@@ -193,5 +219,31 @@ export default class PopupFilmDetails extends AbstractView {
 
   _watchedClickHandler() {
     this._callback.watchedClick();
+  }
+
+  _emojiClickHandler(evt) {
+    this.updateState({
+      emojiChecked: evt.target.value,
+    });
+  }
+
+  _commentInputHandler(evt) {
+    evt.preventDefault();
+    this.updateState({
+      writtenComment: evt.target.value,
+    }, true);
+  }
+
+  static parseFilmToState(film) {
+    return Object.assign({}, film);
+  }
+
+  static parseStateToFilm(state) {
+    state = Object.assign({}, state);
+
+    delete state.emojiChecked;
+    delete state.writtenComment;
+
+    return state;
   }
 }

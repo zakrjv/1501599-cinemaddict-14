@@ -3,7 +3,7 @@ import AbstractView from '../view/abstract.js';
 export default class Smart extends AbstractView {
   constructor() {
     super();
-    this._data = {};
+    this._state = {};
   }
 
   restoreHandlers() {
@@ -14,20 +14,23 @@ export default class Smart extends AbstractView {
     const prevElement = this.getElement();
     const parent = prevElement.parentElement;
     this.removeElement();
+    const intElemScrollTop = prevElement.scrollTop;
 
     const newElement = this.getElement();
-
     parent.replaceChild(newElement, prevElement);
+    newElement.scrollTop = intElemScrollTop;
+
+    this.restoreHandlers();
   }
 
-  updateData(update, justDataUpdating) {
+  updateState(update, justDataUpdating) {
     if (!update) {
       return;
     }
 
-    this._data = Object.assign(
+    this._state = Object.assign(
       {},
-      this._data,
+      this._state,
       update,
     );
 

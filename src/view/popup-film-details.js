@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import FilmCommentsView from '../view/film-comments.js';
-import AbstractView from '../view/abstract.js';
+import SmartView from './smart.js';
 
 const createPopupFilmDetails = (filmCard) => {
   const {
@@ -143,7 +143,7 @@ const createPopupFilmDetails = (filmCard) => {
 </section>`;
 };
 
-export default class PopupFilmDetails extends AbstractView {
+export default class PopupFilmDetails extends SmartView {
   constructor(filmCard) {
     super();
     this._filmCard = filmCard;

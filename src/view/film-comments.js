@@ -17,7 +17,7 @@ const createFilmComment = (comment) => {
               <p class="film-details__comment-text">${text}</p>
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${author}</span>
-                <span class="film-details__comment-day">${dayjs(commentDate).format('YYYY/MM/DD h:mm A')}</span>
+                <span class="film-details__comment-day">${dayjs(commentDate).format('YYYY/MM/DD HH:MM')}</span>
                 <button class="film-details__comment-delete">Delete</button>
               </p>
             </div>

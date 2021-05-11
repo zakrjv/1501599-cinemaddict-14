@@ -20,7 +20,7 @@ filmsModel.setFilms(films);
 
 const filmsPresenter = new FilmListPresenter(siteMainElement, filmsModel);
 
-filmsPresenter.init(films);
+filmsPresenter.init();
 
 render(siteHeaderElement, new UserRankView(userRank));
 render(siteMainElement, new MenuFiltersView(filters), RenderPosition.AFTERBEGIN);

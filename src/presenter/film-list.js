@@ -15,8 +15,9 @@ const FILMS_COUNT_PER_STEP = 5;
 const EXTRA_FILMS_COUNT = 2;
 
 export default class FilmList {
-  constructor(movieListContainer) {
+  constructor(movieListContainer, filmsModel) {
     this._siteElementContainer = movieListContainer;
+    this._filmsModel = filmsModel;
     this._renderedFilmCount = FILMS_COUNT_PER_STEP;
     this._renderedExtraCount = EXTRA_FILMS_COUNT;
     this._currentSortType = SortType.DEFAULT;
@@ -52,6 +53,10 @@ export default class FilmList {
     this._filmsMostCommented = sortFilmsByComments(films.slice());
 
     this._renderBoard();
+  }
+
+  _getFilms() {
+    return this._filmsModel.getFilms();
   }
 
   _renderSort() {

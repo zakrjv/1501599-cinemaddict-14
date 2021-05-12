@@ -18,7 +18,6 @@ export default class FilmList {
     this._siteElementContainer = movieListContainer;
     this._filmsModel = filmsModel;
     this._renderedFilmCount = FILMS_COUNT_PER_STEP;
-    this._renderedExtraCount = EXTRA_FILMS_COUNT;
     this._currentSortType = SortType.DEFAULT;
 
     this._allFilmsPresenter = {};
@@ -39,16 +38,18 @@ export default class FilmList {
     this._commentedFilmsContainer = this._filmMostCommentedComponent.getElement().querySelector('.films-list__container');
 
     this._handleButtonShowMoreClick = this._handleButtonShowMoreClick.bind(this);
-    this._handleFilmChange = this._handleFilmChange.bind(this);
+    // this._handleFilmChange = this._handleFilmChange.bind(this);
     this._handleModeChange = this._handleModeChange.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
+    this._handleViewAction = this._handleViewAction.bind(this);
+    this._handleModelEvent = this._handleModelEvent.bind(this);
+
+    this._filmsModel.addObserver(this._handleModelEvent);
   }
 
   init() {
-    // this._films = films.slice();
-    //
-    // this._filmsTopRated = sortTopRatedFilms(films.slice());
-    // this._filmsMostCommented = sortFilmsByComments(films.slice());
+    render(this._filmsBoardComponent, this._filmTopRatedComponent);
+    render(this._filmsBoardComponent, this._filmMostCommentedComponent);
 
     this._renderBoard();
   }
@@ -70,7 +71,7 @@ export default class FilmList {
   }
 
   _renderFilm(film, container) {
-    this._filmPresenter = new FilmPresenter(container, this._handleFilmChange, this._handleModeChange);
+    this._filmPresenter = new FilmPresenter(container, this._handleViewAction, this._handleModeChange);
     this._filmPresenter.init(film);
   }
 
@@ -128,14 +129,12 @@ export default class FilmList {
     }
   }
 
-  _renderTopRatedFilmsList() {
-    render(this._filmsBoardComponent, this._filmTopRatedComponent);
-    this._renderTopRatedFilms(0, this._renderedExtraCount);
-  }
+  _renderFilmsExtra() {
+    const topRatedFilms = this._getFilms().slice().sort((a, b) => b.rating - a.rating);
+    const mostCommentedFilms = this._getFilms().slice().sort((a, b) => b.comments.length - a.comments.length);
 
-  _renderMostCommentedFilmsList() {
-    render(this._filmsBoardComponent, this._filmMostCommentedComponent);
-    this._renderMostCommentedFilms(0, this._renderedExtraCount);
+    this._renderTopRatedFilms(topRatedFilms.slice(0, EXTRA_FILMS_COUNT));
+    this._renderMostCommentedFilms(mostCommentedFilms.slice(0, EXTRA_FILMS_COUNT));
   }
 
   _renderSiteFooter() {
@@ -155,25 +154,40 @@ export default class FilmList {
       this._renderSort();
       render(this._siteElementContainer, this._filmsBoardComponent);
       this._renderFilmsList();
-      this._renderTopRatedFilmsList();
-      this._renderMostCommentedFilmsList();
+      this._renderFilmsExtra();
       this._renderSiteFooter();
     }
   }
 
-  _handleFilmChange(updatedFilm) {
-    if (updatedFilm.id in this._allFilmsPresenter) {
-      this._allFilmsPresenter[updatedFilm.id].init(updatedFilm);
-    }
-
-    if (updatedFilm.id in this._topRatedFilmsPresenter) {
-      this._topRatedFilmsPresenter[updatedFilm.id].init(updatedFilm);
-    }
-
-    if (updatedFilm.id in this._mostCommentedFilmsPresenter) {
-      this._mostCommentedFilmsPresenter[updatedFilm.id].init(updatedFilm);
-    }
+  _handleViewAction(actionType, updateType, update) {
+    console.log(actionType, updateType, update);
+    // Здесь будем вызывать обновление модели.
+    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
+    // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
+    // update - обновленные данные
   }
+
+  _handleModelEvent(updateType, data) {
+    console.log(updateType, data);
+    // В зависимости от типа изменений решаем, что делать:
+    // - обновить часть списка (например, когда поменялось описание)
+    // - обновить список (например, когда задача ушла в архив)
+    // - обновить всю доску (например, при переключении фильтра)
+  }
+
+  // _handleFilmChange(updatedFilm) {
+  //   if (updatedFilm.id in this._allFilmsPresenter) {
+  //     this._allFilmsPresenter[updatedFilm.id].init(updatedFilm);
+  //   }
+  //
+  //   if (updatedFilm.id in this._topRatedFilmsPresenter) {
+  //     this._topRatedFilmsPresenter[updatedFilm.id].init(updatedFilm);
+  //   }
+  //
+  //   if (updatedFilm.id in this._mostCommentedFilmsPresenter) {
+  //     this._mostCommentedFilmsPresenter[updatedFilm.id].init(updatedFilm);
+  //   }
+  // }
 
   _handleButtonShowMoreClick() {
     const filmCount = this._getFilms().length;

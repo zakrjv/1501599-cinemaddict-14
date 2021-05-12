@@ -1,6 +1,7 @@
 import FilmCardView from '../view/film-card.js';
 import PopupFilmDetailsView from '../view/popup-film-details.js';
 import {render, remove, replace} from '../utils/render.js';
+import {UserAction, UpdateType} from '../const.js';
 
 const Mode = {
   CLOSED: 'CLOSED',
@@ -105,6 +106,8 @@ export default class Film {
 
   _handleButtonWatchlistClick() {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.MINOR,
       Object.assign(
         {},
         this._film,
@@ -117,6 +120,8 @@ export default class Film {
 
   _handleButtonWatchedClick() {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.MINOR,
       Object.assign(
         {},
         this._film,
@@ -129,6 +134,8 @@ export default class Film {
 
   _handleButtonFavoriteClick() {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.MINOR,
       Object.assign(
         {},
         this._film,

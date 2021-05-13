@@ -6,10 +6,12 @@ import {getRank} from './mock/user-rank.js';
 import {render, RenderPosition} from './utils/render.js';
 import FilmListPresenter from './presenter/film-list.js';
 import FilmsModel from './model/films.js';
+import FooterStatisticsView from './view/footer-statistics';
 
-const FILMS_COUNT = 30;
+const FILMS_COUNT = 20;
 const siteMainElement = document.querySelector('.main');
 const siteHeaderElement = document.querySelector('.header');
+const footerElement = document.querySelector('.footer__statistics');
 
 const films = new Array(FILMS_COUNT).fill(null).map(generateFilmCard);
 const filters = generateFilters(films);
@@ -24,3 +26,4 @@ filmsPresenter.init();
 
 render(siteHeaderElement, new UserRankView(userRank));
 render(siteMainElement, new MenuFiltersView(filters), RenderPosition.AFTERBEGIN);
+render(footerElement, new FooterStatisticsView(films.length));

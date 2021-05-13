@@ -8,7 +8,15 @@ const sortFilmsByDate = (filmA, filmB) => {
   return dayjs(filmB.releaseDate).diff(dayjs(filmA.releaseDate));
 };
 
+const sortFilmsByComments = (filmA, filmB) => {
+  const valueA = filmA.comments.length;
+  const valueB = filmB.comments.length;
+
+  return valueB - valueA;
+};
+
 export {
   sortFilmsByDate,
-  sortFilmsByRating
+  sortFilmsByRating,
+  sortFilmsByComments
 };

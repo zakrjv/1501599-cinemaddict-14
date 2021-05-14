@@ -75,9 +75,9 @@ export default class Film {
     this._mode = Mode.OPEN;
 
     this._popupFilmDetailsComponent.setClickButtonCloseHandler(this._handleHidePopupClick);
-    this._popupFilmDetailsComponent.setFavoriteClickHandler(this._handleButtonFavoriteClick);
-    this._popupFilmDetailsComponent.setWatchedClickHandler(this._handleButtonWatchedClick);
-    this._popupFilmDetailsComponent.setWatchlistClickHandler(this._handleButtonWatchlistClick);
+    this._popupFilmDetailsComponent.setFavoritePopupClickHandler(this._handleButtonFavoriteClick);
+    this._popupFilmDetailsComponent.setWatchedPopupClickHandler(this._handleButtonWatchedClick);
+    this._popupFilmDetailsComponent.setWatchlistPopupClickHandler(this._handleButtonWatchlistClick);
 
     render(this._bodyElement, this._popupFilmDetailsComponent);
   }

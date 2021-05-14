@@ -5,8 +5,9 @@ import {generateFilters} from './mock/filter.js';
 import {getRank} from './mock/user-rank.js';
 import {render, RenderPosition} from './utils/render.js';
 import FilmListPresenter from './presenter/film-list.js';
-import FilmsModel from './model/films.js';
 import FooterStatisticsView from './view/footer-statistics';
+import FilmsModel from './model/films.js';
+import FilterModel from './model/filter.js';
 
 const FILMS_COUNT = 20;
 const siteMainElement = document.querySelector('.main');
@@ -20,6 +21,7 @@ const userRank = getRank(films);
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(films);
 
+const filterModel = new FilterModel();
 const filmsPresenter = new FilmListPresenter(siteMainElement, filmsModel);
 
 filmsPresenter.init();

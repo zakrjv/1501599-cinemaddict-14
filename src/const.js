@@ -16,8 +16,16 @@ const UserAction = {
   DELETE_COMMENT: 'DELETE_COMMENT',
 };
 
+const FilterType = {
+  ALL: 'All movies',
+  WATCHLIST: 'Watchlist',
+  HISTORY: 'History',
+  FAVORITES: 'Favorites',
+};
+
 export {
   UserAction,
   UpdateType,
-  SortType
+  SortType,
+  FilterType
 };

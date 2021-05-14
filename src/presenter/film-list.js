@@ -19,6 +19,7 @@ export default class FilmList {
     this._renderedFilmCount = FILMS_COUNT_PER_STEP;
     this._filmsModel = filmsModel;
     this._filterModel = filterModel;
+    // this._commentsModel = commentsModel;
     this._currentSortType = SortType.DEFAULT;
 
     this._allFilmsPresenter = {};
@@ -47,6 +48,7 @@ export default class FilmList {
 
     this._filmsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
+    // this._commentsModel.addObserver(this._handleModelEvent);
   }
 
   init() {
@@ -207,10 +209,10 @@ export default class FilmList {
         this._filmsModel.updateFilm(updateType, update);
         break;
       // case UserAction.ADD_COMMENT:
-      //   this._filmsModel.addComment(updateType, update);
+      //   this._commentsModel.addComment(updateType, update);
       //   break;
       // case UserAction.DELETE_COMMENT:
-      //   this._filmsModel.deleteComment(updateType, update);
+      //   this._commentsModel.deleteComment(updateType, update);
       //   break;
     }
   }

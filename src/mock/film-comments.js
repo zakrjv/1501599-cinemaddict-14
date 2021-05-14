@@ -2,6 +2,7 @@ import {
   getRandomArrayElement,
   generateDate
 } from '../utils/common';
+import {nanoid} from 'nanoid';
 
 const TEXT = [
   'Interesting setting and a good cast',
@@ -24,6 +25,7 @@ const AUTORS = [
 
 export const generateFilmComments = () => {
   return {
+    id: nanoid(),
     text: getRandomArrayElement(TEXT),
     emotion: getRandomArrayElement(EMOTION),
     author: getRandomArrayElement(AUTORS),

@@ -152,10 +152,10 @@ export default class PopupFilmDetails extends SmartView {
     super();
     this._state = PopupFilmDetails.parseFilmToState(filmCard);
 
-    this._buttonCloseHandler = this._buttonCloseHandler.bind(this);
-    this._favoritePopupClickHandler = this._favoritePopupClickHandler.bind(this);
     this._watchlistPopupClickHandler = this._watchlistPopupClickHandler.bind(this);
     this._watchedPopupClickHandler = this._watchedPopupClickHandler.bind(this);
+    this._favoritePopupClickHandler = this._favoritePopupClickHandler.bind(this);
+    this._buttonCloseHandler = this._buttonCloseHandler.bind(this);
 
     this._emojiClickHandler = this._emojiClickHandler.bind(this);
     this._commentInputHandler = this._commentInputHandler.bind(this);
@@ -167,11 +167,7 @@ export default class PopupFilmDetails extends SmartView {
     return createPopupFilmDetails(this._state);
   }
 
-  setFavoritePopupClickHandler(callback) {
-    this._callback.favoriteClick = callback;
-    this.getElement().querySelector('.film-details__control-label--favorite').addEventListener('click', this._favoritePopupClickHandler);
-  }
-
+  // buttons in film popup
   setWatchlistPopupClickHandler(callback) {
     this._callback.watchlistClick = callback;
     this.getElement().querySelector('.film-details__control-label--watchlist').addEventListener('click', this._watchlistPopupClickHandler);
@@ -180,6 +176,11 @@ export default class PopupFilmDetails extends SmartView {
   setWatchedPopupClickHandler(callback) {
     this._callback.watchedClick = callback;
     this.getElement().querySelector('.film-details__control-label--watched').addEventListener('click', this._watchedPopupClickHandler);
+  }
+
+  setFavoritePopupClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector('.film-details__control-label--favorite').addEventListener('click', this._favoritePopupClickHandler);
   }
 
   setClickButtonCloseHandler(callback) {
@@ -202,15 +203,6 @@ export default class PopupFilmDetails extends SmartView {
     this.getElement()
       .querySelector('.film-details__comment-input')
       .addEventListener('input', this._commentInputHandler);
-    this.getElement()
-      .querySelector('.film-details__control-label--watchlist')
-      .addEventListener('click', this._watchlistPopupClickHandler);
-    this.getElement()
-      .querySelector('.film-details__control-label--favorite')
-      .addEventListener('click', this._favoritePopupClickHandler);
-    this.getElement()
-      .querySelector('.film-details__control-label--watched')
-      .addEventListener('click', this._watchedPopupClickHandler);
   }
 
   _buttonCloseHandler(evt) {

@@ -201,7 +201,7 @@ export default class FilmList {
   }
 
   _handleViewAction(actionType, updateType, update) {
-    console.log(actionType, updateType, update);
+    // console.log(actionType, updateType, update);
     switch (actionType) {
       case UserAction.UPDATE_FILM:
         this._filmsModel.updateFilm(updateType, update);
@@ -250,9 +250,7 @@ export default class FilmList {
       ...Object.values(this._topRatedFilmsPresenter),
       ...Object.values(this._mostCommentedFilmsPresenter),
     ];
-    Object
-      .values(presenters)
-      .forEach((presenter) => presenter.resetView());
+    presenters.forEach((presenter) => presenter.resetView());
   }
 
   _handleSortTypeChange(sortType) {

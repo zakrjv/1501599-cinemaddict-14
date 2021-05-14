@@ -38,9 +38,9 @@ export default class Film {
     render(this._filmContainer, this._filmCardComponent);
 
     this._filmCardComponent.setClickHandler(this._handleOpenPopupClick);
-    this._filmCardComponent.setFavoriteClickHandler(this._handleButtonFavoriteClick);
-    this._filmCardComponent.setWatchedClickHandler(this._handleButtonWatchedClick);
     this._filmCardComponent.setWatchlistClickHandler(this._handleButtonWatchlistClick);
+    this._filmCardComponent.setWatchedClickHandler(this._handleButtonWatchedClick);
+    this._filmCardComponent.setFavoriteClickHandler(this._handleButtonFavoriteClick);
 
     if (prevFilmComponent === null) {
       render(this._filmContainer, this._filmCardComponent);
@@ -65,14 +65,13 @@ export default class Film {
   }
 
   _openPopup() {
+    this._changeMode();
+    this._mode = Mode.OPEN;
     this._popupFilmDetailsComponent = new PopupFilmDetailsView(this._film);
 
     this._bodyElement.appendChild(this._popupFilmDetailsComponent.getElement());
     this._bodyElement.classList.add('hide-overflow');
     document.addEventListener('keydown', this._escKeyDownHandler);
-
-    this._changeMode();
-    this._mode = Mode.OPEN;
 
     this._popupFilmDetailsComponent.setClickButtonCloseHandler(this._handleHidePopupClick);
     this._popupFilmDetailsComponent.setFavoritePopupClickHandler(this._handleButtonFavoriteClick);
@@ -105,44 +104,30 @@ export default class Film {
   }
 
   _handleButtonWatchlistClick() {
+    // console.log(!this._film.isWatchlist);
+    // console.log(this._film);
     this._changeData(
       UserAction.UPDATE_FILM,
       UpdateType.MINOR,
-      Object.assign(
-        {},
-        this._film,
-        {
-          isWatchlist: !this._film.isWatchlist,
-        },
-      ),
+      {...this._film, isWatchlist: !this._film.isWatchlist},
     );
   }
 
   _handleButtonWatchedClick() {
+    // console.log(!this._film.isWatched);
     this._changeData(
       UserAction.UPDATE_FILM,
       UpdateType.MINOR,
-      Object.assign(
-        {},
-        this._film,
-        {
-          isWatched: !this._film.isWatched,
-        },
-      ),
+      {...this._film, isWatched: !this._film.isWatched},
     );
   }
 
   _handleButtonFavoriteClick() {
+    // console.log(!this._film.isFavorites);
     this._changeData(
       UserAction.UPDATE_FILM,
       UpdateType.MINOR,
-      Object.assign(
-        {},
-        this._film,
-        {
-          isFavorites: !this._film.isFavorites,
-        },
-      ),
+      {...this._film, isFavorites: !this._film.isFavorites},
     );
   }
 }

@@ -21,8 +21,8 @@ filmsModel.setFilms(films);
 
 const filterModel = new FilterModel();
 
-const filmsPresenter = new FilmListPresenter(siteMainElement, filmsModel);
-const filterPresenter = new MenuFiltersPresenter(siteMainElement, filterModel, filmsModel);
+const filmsPresenter = new FilmListPresenter(siteMainElement, filmsModel, filterModel);
+const filterPresenter = new MenuFiltersPresenter(siteMainElement, filmsModel, filterModel);
 
 filterPresenter.init();
 filmsPresenter.init();

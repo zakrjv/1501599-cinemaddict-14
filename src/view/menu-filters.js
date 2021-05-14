@@ -8,8 +8,31 @@ const createFilterItemTemplate = (filter, currentFilterType) => {
     count,
   } = filter;
 
+  const comparesDataType = () => {
+    let dataType = '';
+    switch (name) {
+      case FilterType.ALL:
+        dataType = `${FilterType.ALL}`;
+        break;
+      case FilterType.WATCHLIST:
+        dataType = `${FilterType.WATCHLIST}`;
+        break;
+      case FilterType.HISTORY:
+        dataType = `${FilterType.HISTORY}`;
+        break;
+      case FilterType.FAVORITES:
+        dataType = `${FilterType.FAVORITES}`;
+        break;
+    }
+    return dataType;
+  };
+
   return (
-    `<a href="${name}" class="main-navigation__item ${type === currentFilterType ? 'main-navigation__item--active' : ''}">${name} ${name === FilterType.ALL ? '' : `<span class="main-navigation__item-count">${count}</span>`}</a>`
+    `<a href="${name}"
+        class="main-navigation__item ${type === currentFilterType ? 'main-navigation__item--active' : ''}"
+        data-filter-type="${comparesDataType()}">
+        ${name}
+        ${name === FilterType.ALL ? '' : `<span class="main-navigation__item-count">${count}</span>`}</a>`
   );
 };
 

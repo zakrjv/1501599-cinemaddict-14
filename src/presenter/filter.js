@@ -4,7 +4,7 @@ import {filter} from '../utils/filter.js';
 import {FilterType, UpdateType} from '../const.js';
 
 export default class Filter {
-  constructor(filterContainer, filterModel, filmsModel) {
+  constructor(filterContainer, filmsModel, filterModel) {
     this._filterContainer = filterContainer;
     this._filterModel = filterModel;
     this._filmsModel = filmsModel;
@@ -42,7 +42,7 @@ export default class Filter {
     if (this._filterModel.getFilter() === filterType) {
       return;
     }
-
+    console.log({filterType});
     this._filterModel.setFilter(UpdateType.MAJOR, filterType);
   }
 

@@ -1,21 +1,21 @@
 import AbstractView from '../view/abstract.js';
+import {FilterType} from '../const.js';
 
-const createFilterItemTemplate = (filter) => {
+const createFilterItemTemplate = (filter, currentFilterType) => {
   const {
-    desc,
-    link,
+    type,
+    name,
     count,
   } = filter;
 
   return (
-    `<a href="${link}" class="main-navigation__item ${desc === 'All movies' ? 'main-navigation__item--active' : ''}">${desc}
-${desc === 'All movies' ? '' : `<span class="main-navigation__item-count">${count}</span>`}</a>`
+    `<a href="${name}" class="main-navigation__item ${type === currentFilterType ? 'main-navigation__item--active' : ''}">${name} ${name === FilterType.ALL ? '' : `<span class="main-navigation__item-count">${count}</span>`}</a>`
   );
 };
 
-const createFilterMenu = (filterItems) => {
+const createFilterMenu = (filterItems, currentFilterType) => {
   const filterItemsTemplate = filterItems
-    .map((filter) => createFilterItemTemplate(filter))
+    .map((filter) => createFilterItemTemplate(filter, currentFilterType))
     .join('');
 
   return (
@@ -29,12 +29,25 @@ const createFilterMenu = (filterItems) => {
 };
 
 export default class MenuFilters extends AbstractView {
-  constructor(filters) {
+  constructor(filters, currentFilterType) {
     super();
     this._filters = filters;
+    this._currentFilter = currentFilterType;
+
+    this._filterTypeChangeHandler = this._filterTypeChangeHandler.bind(this);
   }
 
   getTemplate() {
-    return createFilterMenu(this._filters);
+    return createFilterMenu(this._filters, this._currentFilter);
+  }
+
+  setFilterTypeChangeHandler(callback) {
+    this._callback.filterTypeChange = callback;
+    this.getElement().addEventListener('click', this._filterTypeChangeHandler);
+  }
+
+  _filterTypeChangeHandler(evt) {
+    evt.preventDefault();
+    this._callback.filterTypeChange(evt.target.dataset.filterType);
   }
 }

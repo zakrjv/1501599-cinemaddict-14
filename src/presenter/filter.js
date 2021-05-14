@@ -42,7 +42,6 @@ export default class Filter {
     if (this._filterModel.getFilter() === filterType) {
       return;
     }
-    console.log({filterType});
     this._filterModel.setFilter(UpdateType.MAJOR, filterType);
   }
 

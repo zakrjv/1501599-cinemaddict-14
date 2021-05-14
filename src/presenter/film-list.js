@@ -190,6 +190,8 @@ export default class FilmList {
 
     if (filmCount === 0) {
       this._renderNoFilms();
+      this._filmTopRatedComponent.getElement().remove();
+      this._filmMostCommentedComponent.getElement().remove();
       return;
     }
     this._renderSort();

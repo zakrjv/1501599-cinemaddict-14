@@ -26,6 +26,7 @@ export default class Film {
     this._handleButtonWatchlistClick = this._handleButtonWatchlistClick.bind(this);
     this._handleButtonWatchedClick = this._handleButtonWatchedClick.bind(this);
     this._handleButtonFavoriteClick = this._handleButtonFavoriteClick.bind(this);
+    this._handleButtonDeleteClick = this._handleButtonDeleteClick.bind(this);
   }
 
   init(film) {
@@ -78,6 +79,8 @@ export default class Film {
     this._popupFilmDetailsComponent.setWatchedPopupClickHandler(this._handleButtonWatchedClick);
     this._popupFilmDetailsComponent.setWatchlistPopupClickHandler(this._handleButtonWatchlistClick);
 
+    this._popupFilmDetailsComponent.setClickButtonDeleteHandler(this._handleButtonDeleteClick);
+
     render(this._bodyElement, this._popupFilmDetailsComponent);
   }
 
@@ -129,5 +132,9 @@ export default class Film {
       UpdateType.MINOR,
       {...this._film, isFavorites: !this._film.isFavorites},
     );
+  }
+
+  _handleButtonDeleteClick() {
+    console.log('123');
   }
 }

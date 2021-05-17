@@ -7,6 +7,8 @@ import FilmListPresenter from './presenter/film-list.js';
 import MenuFiltersPresenter from './presenter/filter.js';
 import FilmsModel from './model/films.js';
 import FilterModel from './model/filter.js';
+import CommentsModel from './model/comments.js';
+import {generateFilmComments} from './mock/film-comments';
 
 const FILMS_COUNT = 20;
 const siteMainElement = document.querySelector('.main');
@@ -14,14 +16,17 @@ const siteHeaderElement = document.querySelector('.header');
 const footerElement = document.querySelector('.footer__statistics');
 
 const films = new Array(FILMS_COUNT).fill(null).map(generateFilmCard);
+const comments = generateFilmComments();
 const userRank = getRank(films);
 
 const filmsModel = new FilmsModel();
-filmsModel.setFilms(films);
-
 const filterModel = new FilterModel();
+const commentsModel = new CommentsModel();
 
-const filmsPresenter = new FilmListPresenter(siteMainElement, filmsModel, filterModel);
+filmsModel.setFilms(films);
+commentsModel.setComments(comments);
+
+const filmsPresenter = new FilmListPresenter(siteMainElement, filmsModel, filterModel, commentsModel);
 const filterPresenter = new MenuFiltersPresenter(siteMainElement, filmsModel, filterModel);
 
 filterPresenter.init();

@@ -9,10 +9,11 @@ const Mode = {
 };
 
 export default class Film {
-  constructor(filmContainer, changeData, changeMode) {
+  constructor(filmContainer, changeData, changeMode, commentsModel) {
     this._filmContainer = filmContainer;
     this._changeData = changeData;
     this._changeMode = changeMode;
+    // this._commentsModel = commentsModel;
     this._bodyElement = document.body;
 
     this._filmCardComponent = null;
@@ -136,5 +137,12 @@ export default class Film {
 
   _handleButtonDeleteClick() {
     console.log('123');
+    this._changeData(
+      UserAction.DELETE_COMMENT,
+      UpdateType.MINOR,
+      Object.assign({},
+        this._film,
+      ),
+    );
   }
 }

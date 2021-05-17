@@ -118,7 +118,7 @@ export const generateFilmCard = () => {
     duration: `${getRandomInteger(Duration.HOURS.min, Duration.HOURS.max)}h ${getRandomInteger(Duration.MINUTES.min, Duration.MINUTES.max)}m`,
     genres: getRandomArray(GENRES, getRandomInteger(1, GENRES.length)),
     description: getRandomArray(FILM_DESCRIPTION, getRandomInteger(1, 5)).join(' '),
-    comments: new Array(getRandomInteger(0, 5)).fill(null).map(() => generateFilmComments()),
+    comments: generateFilmComments(),
     isWatchlist: Boolean(getRandomInteger(0, 1)),
     isWatched: Boolean(getRandomInteger(0, 1)),
     isFavorites: Boolean(getRandomInteger(0, 1)),

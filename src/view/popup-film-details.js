@@ -148,7 +148,7 @@ const createPopupFilmDetails = (state) => {
 };
 
 export default class PopupFilmDetails extends SmartView {
-  constructor(filmCard) {
+  constructor(filmCard, filmComments) {
     super();
     this._state = PopupFilmDetails.parseFilmToState(filmCard);
 
@@ -190,7 +190,7 @@ export default class PopupFilmDetails extends SmartView {
   }
 
   setClickButtonDeleteHandler(callback) {
-    this._callback.deleteComment  = callback;
+    this._callback.deleteClick  = callback;
     this.getElement().querySelector('.film-details__comment-delete').addEventListener('click', this._buttonDeleteHandler);
   }
 
@@ -243,7 +243,7 @@ export default class PopupFilmDetails extends SmartView {
 
   _buttonDeleteHandler(evt) {
     evt.preventDefault();
-    this._callback.deleteComment(evt.target.dataset.commentId);
+    this._callback.deleteClick(evt.target.dataset.commentId);
   }
 
   static parseFilmToState(film) {

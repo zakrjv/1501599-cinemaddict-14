@@ -14,12 +14,12 @@ const FILMS_COUNT_PER_STEP = 5;
 const EXTRA_FILMS_COUNT = 2;
 
 export default class FilmList {
-  constructor(movieListContainer, filmsModel, filterModel) {
+  constructor(movieListContainer, filmsModel, filterModel, commentsModel) {
     this._siteElementContainer = movieListContainer;
     this._renderedFilmCount = FILMS_COUNT_PER_STEP;
     this._filmsModel = filmsModel;
     this._filterModel = filterModel;
-    // this._commentsModel = commentsModel;
+    this._commentsModel = commentsModel;
     this._currentSortType = SortType.DEFAULT;
 
     this._allFilmsPresenter = {};
@@ -48,7 +48,7 @@ export default class FilmList {
 
     this._filmsModel.addObserver(this._handleModelEvent);
     this._filterModel.addObserver(this._handleModelEvent);
-    // this._commentsModel.addObserver(this._handleModelEvent);
+    this._commentsModel.addObserver(this._handleModelEvent);
   }
 
   init() {
@@ -82,7 +82,7 @@ export default class FilmList {
   }
 
   _renderFilm(film, container) {
-    this._filmPresenter = new FilmPresenter(container, this._handleViewAction, this._handleModeChange);
+    this._filmPresenter = new FilmPresenter(container, this._handleViewAction, this._handleModeChange, this._commentsModel);
     this._filmPresenter.init(film);
   }
 
@@ -208,12 +208,12 @@ export default class FilmList {
       case UserAction.UPDATE_FILM:
         this._filmsModel.updateFilm(updateType, update);
         break;
-      // case UserAction.ADD_COMMENT:
-      //   this._commentsModel.addComment(updateType, update);
-      //   break;
-      // case UserAction.DELETE_COMMENT:
-      //   this._commentsModel.deleteComment(updateType, update);
-      //   break;
+      case UserAction.ADD_COMMENT:
+        this._commentsModel.addComment(updateType, update);
+        break;
+      case UserAction.DELETE_COMMENT:
+        this._commentsModel.deleteComment(updateType, update);
+        break;
     }
   }
 

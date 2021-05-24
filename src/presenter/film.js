@@ -69,7 +69,7 @@ export default class Film {
   _openPopup() {
     this._changeMode();
     this._mode = Mode.OPEN;
-    this._popupFilmDetailsComponent = new PopupFilmDetailsView(this._film, this._commentsModel.getComments());
+    this._popupFilmDetailsComponent = new PopupFilmDetailsView(this._film, this._commentsModel.get());
 
     this._bodyElement.appendChild(this._popupFilmDetailsComponent.getElement());
     this._bodyElement.classList.add('hide-overflow');
@@ -108,8 +108,6 @@ export default class Film {
   }
 
   _handleButtonWatchlistClick() {
-    // console.log(!this._film.isWatchlist);
-    // console.log(this._film);
     this._changeData(
       UserAction.UPDATE_FILM,
       UpdateType.MINOR,
@@ -137,7 +135,7 @@ export default class Film {
 
     this._changeData(
       UserAction.UPDATE_FILM,
-      UpdateType.PATCH,
+      UpdateType.MINOR,
       {...this._film, comments: film.comments},
     );
 

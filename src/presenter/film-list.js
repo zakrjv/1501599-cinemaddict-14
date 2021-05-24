@@ -56,8 +56,8 @@ export default class FilmList {
   }
 
   _getFilms() {
-    const filterType = this._filterModel.getFilter();
-    const films = this._filmsModel.getFilms().slice();
+    const filterType = this._filterModel.get();
+    const films = this._filmsModel.get().slice();
     const filteredFilms = filter[filterType](films);
 
     switch (this._currentSortType) {
@@ -206,14 +206,13 @@ export default class FilmList {
     // console.log(actionType, updateType, update);
     switch (actionType) {
       case UserAction.UPDATE_FILM:
-        this._filmsModel.updateFilm(updateType, update);
+        this._filmsModel.update(updateType, update);
         break;
       case UserAction.ADD_COMMENT:
-        this._commentsModel.addComment(updateType, update);
+        this._commentsModel.add(updateType, update);
         break;
       case UserAction.DELETE_COMMENT:
-        this._commentsModel.deleteComment(updateType, update);
-        this._filmsModel.updateFilm(updateType, update);
+        this._commentsModel.delete(updateType, update);
         break;
     }
   }

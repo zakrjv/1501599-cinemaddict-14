@@ -23,8 +23,8 @@ const filmsModel = new FilmsModel();
 const filterModel = new FilterModel();
 const commentsModel = new CommentsModel();
 
-filmsModel.setFilms(films);
-commentsModel.setComments(comments);
+filmsModel.set(films);
+commentsModel.set(comments);
 
 const filmsPresenter = new FilmListPresenter(siteMainElement, filmsModel, filterModel, commentsModel);
 const filterPresenter = new MenuFiltersPresenter(siteMainElement, filmsModel, filterModel);

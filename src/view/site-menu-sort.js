@@ -13,12 +13,12 @@ export default class SiteMenuSort extends AbstractView {
   constructor(currentSortType) {
     super();
 
-    this._currentSortType = currentSortType;
+    this._currentType = currentSortType;
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
   }
 
   getTemplate() {
-    return createSortMenu(this._currentSortType);
+    return createSortMenu(this._currentType);
   }
 
   setSortTypeChangeHandler(callback) {

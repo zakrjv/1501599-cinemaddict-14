@@ -6,15 +6,15 @@ export default class Comments extends Observer {
     this._comments = [];
   }
 
-  setComments(comments) {
+  set(comments) {
     this._comments = comments.slice();
   }
 
-  getComments() {
+  get() {
     return this._comments;
   }
 
-  addComment(updateType, filmUpdate, commentUpdate) {
+  add(updateType, filmUpdate, commentUpdate) {
     this._comments = [
       ...this._comments,
       commentUpdate,
@@ -23,7 +23,7 @@ export default class Comments extends Observer {
     this._notify(updateType, filmUpdate);
   }
 
-  deleteComment(updateType, deletedCommentId, film) {
+  delete(updateType, deletedCommentId, film) {
     this._comments = [...this._comments].filter((comment) => comment !== deletedCommentId);
 
     this._notify(updateType, film, deletedCommentId);

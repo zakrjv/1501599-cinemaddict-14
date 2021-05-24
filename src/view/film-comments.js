@@ -3,6 +3,7 @@ import AbstractView from '../view/abstract.js';
 
 const createFilmComment = (comment) => {
   const {
+    id,
     text,
     emotion,
     author,
@@ -18,7 +19,7 @@ const createFilmComment = (comment) => {
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${author}</span>
                 <span class="film-details__comment-day">${dayjs(commentDate).format('YYYY/MM/DD HH:MM')}</span>
-                <button class="film-details__comment-delete">Delete</button>
+                <button class="film-details__comment-delete" data-comment-id="${id}" type="button">Delete</button>
               </p>
             </div>
           </li>`;

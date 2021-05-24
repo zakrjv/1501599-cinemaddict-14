@@ -1,13 +1,5 @@
 import dayjs from 'dayjs';
 
-const sortTopRatedFilms = (films) => {
-  return films.slice().sort((a, b) => b.rating - a.rating);
-};
-
-const sortFilmsByComments = (films) => {
-  return films.slice().sort((a, b) => b.comments.length - a.comments.length);
-};
-
 const sortFilmsByRating = (filmA, filmB) => {
   return filmB.rating - filmA.rating;
 };
@@ -16,9 +8,15 @@ const sortFilmsByDate = (filmA, filmB) => {
   return dayjs(filmB.releaseDate).diff(dayjs(filmA.releaseDate));
 };
 
+const sortFilmsByComments = (filmA, filmB) => {
+  const valueA = filmA.comments.length;
+  const valueB = filmB.comments.length;
+
+  return valueB - valueA;
+};
+
 export {
-  sortTopRatedFilms,
-  sortFilmsByComments,
   sortFilmsByDate,
-  sortFilmsByRating
+  sortFilmsByRating,
+  sortFilmsByComments
 };

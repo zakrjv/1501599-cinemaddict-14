@@ -1,6 +1,6 @@
 import {
   getRandomArrayElement,
-  generateDate, getRandomInteger
+  generateDate
 } from '../utils/common';
 import {nanoid} from 'nanoid';
 
@@ -23,16 +23,21 @@ const AUTORS = [
   'John Macoveev',
 ];
 
-const generateFilmComment = () => {
-  return {
+const comments = [];
+
+export const generateFilmComment = () => {
+
+  const comment = {
     id: nanoid(),
     text: getRandomArrayElement(TEXT),
     emotion: getRandomArrayElement(EMOTION),
     author: getRandomArrayElement(AUTORS),
     commentDate: generateDate(),
   };
+  comments.push(comment);
+  return comment.id;
 };
 
-export const generateFilmComments = () => {
-  return new Array(getRandomInteger(0, 5)).fill(null).map(() => generateFilmComment());
+export const getComments = () => {
+  return comments;
 };

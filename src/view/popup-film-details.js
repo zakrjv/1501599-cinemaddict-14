@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
 import FilmCommentsView from '../view/film-comments.js';
 import SmartView from './smart.js';
+import {UserAction} from '../const.js';
 
-const createPopupFilmDetails = (state) => {
+const createPopupFilmDetails = (state, commentsAll) => {
   const {
     poster,
     ageRating,
@@ -25,7 +26,8 @@ const createPopupFilmDetails = (state) => {
     writtenComment,
   } = state;
 
-  const commentsList = state.comments.map((comment) => {
+  const filmComments = commentsAll.filter((comment) => comments.indexOf(comment.id) >= 0);
+  const commentsList = filmComments.map((comment) => {
     return new FilmCommentsView(comment).getTemplate();
   });
 
@@ -151,6 +153,7 @@ export default class PopupFilmDetails extends SmartView {
   constructor(filmCard, filmComments) {
     super();
     this._state = PopupFilmDetails.parseFilmToState(filmCard);
+    this._filmComments = filmComments;
 
     this._watchlistPopupClickHandler = this._watchlistPopupClickHandler.bind(this);
     this._watchedPopupClickHandler = this._watchedPopupClickHandler.bind(this);
@@ -159,13 +162,14 @@ export default class PopupFilmDetails extends SmartView {
 
     this._emojiClickHandler = this._emojiClickHandler.bind(this);
     this._commentInputHandler = this._commentInputHandler.bind(this);
-    this._buttonDeleteHandler = this._buttonDeleteHandler.bind(this);
+
+    this._buttonDeleteCommentHandler = this._buttonDeleteCommentHandler.bind(this);
 
     this._setInnerHandlers();
   }
 
   getTemplate() {
-    return createPopupFilmDetails(this._state);
+    return createPopupFilmDetails(this._state, this._filmComments);
   }
 
   // buttons in film popup
@@ -189,16 +193,12 @@ export default class PopupFilmDetails extends SmartView {
     this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._buttonCloseHandler);
   }
 
-  setClickButtonDeleteHandler(callback) {
-    this._callback.deleteClick  = callback;
-    this.getElement().querySelector('.film-details__comment-delete').addEventListener('click', this._buttonDeleteHandler);
+  setClickButtonDeleteCommentHandler(callback) {
+    this._callback.deleteClick = callback;
   }
 
   restoreHandlers() {
     this._setInnerHandlers();
-    this.setFavoriteClickHandler(this._callback.favoriteClick);
-    this.setWatchlistClickHandler(this._callback.watchlistClick);
-    this.setWatchedClickHandler(this._callback.watchedClick);
     this.setClickButtonCloseHandler(this._callback.click);
   }
 
@@ -209,6 +209,9 @@ export default class PopupFilmDetails extends SmartView {
     this.getElement()
       .querySelector('.film-details__comment-input')
       .addEventListener('input', this._commentInputHandler);
+    this.getElement()
+      .querySelector('.film-details__comments-list')
+      .addEventListener('click', this._buttonDeleteCommentHandler);
   }
 
   _buttonCloseHandler(evt) {
@@ -241,20 +244,31 @@ export default class PopupFilmDetails extends SmartView {
     }, true);
   }
 
-  _buttonDeleteHandler(evt) {
+  _buttonDeleteCommentHandler(evt) {
     evt.preventDefault();
-    this._callback.deleteClick(evt.target.dataset.commentId);
+
+    const button = this.getElement().querySelector('.film-details__comment-delete');
+    if (!button) return;
+
+    const commentIdToDelete = evt.target.dataset.commentId;
+
+    this._state = PopupFilmDetails.parseStateToFilm(this._state, UserAction.DELETE_COMMENT, commentIdToDelete);
+    this.updateElement();
   }
 
   static parseFilmToState(film) {
     return Object.assign({}, film);
   }
 
-  static parseStateToFilm(state) {
+  static parseStateToFilm(state, action, comment) {
     state = Object.assign({}, state);
 
     delete state.emojiChecked;
     delete state.writtenComment;
+
+    if (action === UserAction.DELETE_COMMENT){
+      state.comments = [...state.comments].filter((commentItem) => commentItem !== comment);
+    }
 
     return state;
   }

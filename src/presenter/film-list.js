@@ -213,6 +213,7 @@ export default class FilmList {
         break;
       case UserAction.DELETE_COMMENT:
         this._commentsModel.deleteComment(updateType, update);
+        this._filmsModel.updateFilm(updateType, update);
         break;
     }
   }

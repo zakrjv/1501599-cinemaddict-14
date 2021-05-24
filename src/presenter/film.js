@@ -13,7 +13,7 @@ export default class Film {
     this._filmContainer = filmContainer;
     this._changeData = changeData;
     this._changeMode = changeMode;
-    // this._commentsModel = commentsModel;
+    this._commentsModel = commentsModel;
     this._bodyElement = document.body;
 
     this._filmCardComponent = null;
@@ -69,7 +69,7 @@ export default class Film {
   _openPopup() {
     this._changeMode();
     this._mode = Mode.OPEN;
-    this._popupFilmDetailsComponent = new PopupFilmDetailsView(this._film);
+    this._popupFilmDetailsComponent = new PopupFilmDetailsView(this._film, this._commentsModel.getComments());
 
     this._bodyElement.appendChild(this._popupFilmDetailsComponent.getElement());
     this._bodyElement.classList.add('hide-overflow');
@@ -80,7 +80,7 @@ export default class Film {
     this._popupFilmDetailsComponent.setWatchedPopupClickHandler(this._handleButtonWatchedClick);
     this._popupFilmDetailsComponent.setWatchlistPopupClickHandler(this._handleButtonWatchlistClick);
 
-    this._popupFilmDetailsComponent.setClickButtonDeleteHandler(this._handleButtonDeleteClick);
+    this._popupFilmDetailsComponent.setClickButtonDeleteCommentHandler(this._handleButtonDeleteClick);
 
     render(this._bodyElement, this._popupFilmDetailsComponent);
   }
@@ -118,7 +118,6 @@ export default class Film {
   }
 
   _handleButtonWatchedClick() {
-    // console.log(!this._film.isWatched);
     this._changeData(
       UserAction.UPDATE_FILM,
       UpdateType.MINOR,
@@ -127,7 +126,6 @@ export default class Film {
   }
 
   _handleButtonFavoriteClick() {
-    // console.log(!this._film.isFavorites);
     this._changeData(
       UserAction.UPDATE_FILM,
       UpdateType.MINOR,
@@ -135,14 +133,14 @@ export default class Film {
     );
   }
 
-  _handleButtonDeleteClick() {
-    console.log('123');
+  _handleButtonDeleteClick(commentId, film) {
+
     this._changeData(
-      UserAction.DELETE_COMMENT,
-      UpdateType.MINOR,
-      Object.assign({},
-        this._film,
-      ),
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
+      {...this._film, comments: film.comments},
     );
+
+    this._commentsModel.deleteComment(UpdateType.MINOR, commentId, film);
   }
 }

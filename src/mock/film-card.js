@@ -117,7 +117,7 @@ export const generateFilmCard = () => {
     ageRating: getRandomArrayElement(AGE_RATING),
     country: getRandomArrayElement(COUNTRIES),
     director: getRandomArrayElement(PRODUCERS),
-    screenwriters: getRandomArrayElement(SCREENWRITERS),
+    writers: getRandomArrayElement(SCREENWRITERS),
     cast: getRandomArray(ACTORS, getRandomInteger(3, 6)),
     rating: getRandomInteger(FILM_RATING.min, FILM_RATING.max),
     duration: `${getRandomInteger(Duration.HOURS.min, Duration.HOURS.max)}h ${getRandomInteger(Duration.MINUTES.min, Duration.MINUTES.max)}m`,
@@ -126,6 +126,6 @@ export const generateFilmCard = () => {
     comments: generateComments(),
     isWatchlist: Boolean(getRandomInteger(0, 1)),
     isWatched: Boolean(getRandomInteger(0, 1)),
-    isFavorites: Boolean(getRandomInteger(0, 1)),
+    isFavorite: Boolean(getRandomInteger(0, 1)),
   };
 };

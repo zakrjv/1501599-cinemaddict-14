@@ -11,7 +11,7 @@ const createPopupFilmDetails = (state, commentsAll) => {
     originalTitle,
     director,
     releaseDate,
-    screenwriters,
+    writers,
     comments,
     cast,
     rating,
@@ -21,7 +21,7 @@ const createPopupFilmDetails = (state, commentsAll) => {
     description,
     isWatchlist,
     isWatched,
-    isFavorites,
+    isFavorite,
     emojiChecked,
     writtenComment,
   } = state;
@@ -63,7 +63,7 @@ const createPopupFilmDetails = (state, commentsAll) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Writers</td>
-              <td class="film-details__cell">${screenwriters}</td>
+              <td class="film-details__cell">${writers}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Actors</td>
@@ -99,7 +99,7 @@ const createPopupFilmDetails = (state, commentsAll) => {
         <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched ? ' checked' : ''}>
         <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavorites ? ' checked' : ''}>
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavorite ? ' checked' : ''}>
         <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
     </div>

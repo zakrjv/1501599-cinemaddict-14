@@ -12,18 +12,15 @@ import {getComments} from './mock/film-comments';
 import Api from './api.js';
 import {UpdateType} from './const.js';
 
-// const FILMS_COUNT = 20;
 const AUTHORIZATION = 'Basic wW6ty3ar35dg945fGh3';
 const END_POINT = 'https://14.ecmascript.pages.academy/cinemaddict/';
 
 const siteMainElement = document.querySelector('.main');
-const siteHeaderElement = document.querySelector('.header');
 const footerElement = document.querySelector('.footer__statistics');
 
-// const films = new Array(FILMS_COUNT).fill(null).map(generateFilmCard);
 const comments = getComments();
-// const userRank = getRank(films);
 const api = new Api(END_POINT, AUTHORIZATION);
+
 
 const filmsModel = new FilmsModel();
 const filterModel = new FilterModel();
@@ -36,14 +33,13 @@ const filterPresenter = new MenuFiltersPresenter(siteMainElement, filmsModel, fi
 
 api.getFilms()
   .then((films) => {
-    FilmsModel.set(UpdateType.INIT, films);
-    filterPresenter.init();
+    filmsModel.set(UpdateType.INIT, films);
   })
   .catch(() => {
     filmsModel.set(UpdateType.INIT, []);
   });
 
+filterPresenter.init();
 filmsPresenter.init();
 
-// render(siteHeaderElement, new UserRankView(userRank));
 // render(footerElement, new FooterStatisticsView(films.length));

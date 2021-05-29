@@ -1,4 +1,5 @@
 import MenuFiltersView from '../view/menu-filters';
+import UserRankView from '../view/user-rank.js';
 import {remove, replace, render} from '../utils/render';
 import {filter} from '../utils/filter.js';
 import {FilterType, UpdateType} from '../const.js';
@@ -10,6 +11,7 @@ export default class Filter {
     this._filmsModel = filmsModel;
 
     this._filterComponent = null;
+    this._ratingComponent = null;
 
     this._handleModelEvent = this._handleModelEvent.bind(this);
     this._handleFilterTypeChange = this._handleFilterTypeChange.bind(this);
@@ -34,6 +36,21 @@ export default class Filter {
     remove(prevFilterComponent);
   }
 
+  _renderUserRating(history) {
+    const siteHeaderElement = document.querySelector('.header');
+
+    const prevRatingComponent = this._ratingComponent;
+    this._ratingComponent = new UserRankView(history);
+
+    if (prevRatingComponent === null) {
+      render(siteHeaderElement, this._ratingComponent);
+      return;
+    }
+
+    replace(this._ratingComponent, prevRatingComponent);
+    remove(prevRatingComponent);
+  }
+
   _handleModelEvent() {
     this.init();
   }
@@ -47,6 +64,7 @@ export default class Filter {
 
   _getFilters() {
     const films = this._filmsModel.get();
+    this._renderUserRating(filter[FilterType.HISTORY](films).length);
 
     return [
       {

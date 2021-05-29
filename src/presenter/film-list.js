@@ -3,6 +3,7 @@ import FilmMostCommentedView from '../view/film-most-commented.js';
 import FilmTopRatedView from '../view/film-top-rated.js';
 import SiteMenuSortView from '../view/site-menu-sort.js';
 import NoFilmsView from '../view/no-films.js';
+import LoadingView from '../view/loading.js';
 import ButtonShowMoreView from '../view/button-show-more';
 import FilmPresenter from '../presenter/film.js';
 import {render, remove} from '../utils/render';
@@ -21,6 +22,7 @@ export default class FilmList {
     this._filterModel = filterModel;
     this._commentsModel = commentsModel;
     this._currentSortType = SortType.DEFAULT;
+    this._isLoading = true;
 
     this._allFilmsPresenter = {};
     this._topRatedFilmsPresenter = {};
@@ -33,6 +35,7 @@ export default class FilmList {
     this._filmTopRatedComponent = new FilmTopRatedView();
     this._filmMostCommentedComponent = new FilmMostCommentedView();
     this._noFilmsComponent = new NoFilmsView();
+    this._loadingComponent = new LoadingView();
 
     this._allfilmsList = this._filmsBoardComponent.getElement().querySelector('.films-list--all-films');
     this._allfilmsListContainer = this._allfilmsList.querySelector('.films-list__container');
@@ -135,6 +138,7 @@ export default class FilmList {
     this._topRatedFilmsPresenter = {};
     this._mostCommentedFilmsPresenter = {};
 
+    remove(this._loadingComponent);
     remove(this._siteMenuSortComponent);
     remove(this._noFilmsComponent);
     remove(this._buttonShowMoreComponent);
@@ -152,6 +156,10 @@ export default class FilmList {
 
   _renderNoFilms() {
     render(this._siteElementContainer, this._noFilmsComponent);
+  }
+
+  _renderLoading() {
+    render(this._siteElementContainer, this._loadingComponent);
   }
 
   _renderButtonShowMore() {
@@ -190,6 +198,11 @@ export default class FilmList {
     const films = this._getFilms();
     const filmCount = films.length;
 
+    if (this._isLoading) {
+      this._renderLoading();
+      return;
+    }
+
     if (filmCount === 0) {
       this._renderNoFilms();
       this._filmTopRatedComponent.getElement().remove();
@@ -227,6 +240,11 @@ export default class FilmList {
         break;
       case UpdateType.MAJOR:
         this._clearBoard({resetRenderedFilmCount: true, resetSortType: true});
+        this._renderBoard();
+        break;
+      case UpdateType.INIT:
+        this._isLoading = false;
+        remove(this._loadingComponent);
         this._renderBoard();
         break;
     }

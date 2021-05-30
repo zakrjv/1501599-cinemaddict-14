@@ -15,7 +15,7 @@ const createFilmCard = (filmCard) => {
     comments,
     isWatchlist,
     isWatched,
-    isFavorites,
+    isFavorite,
   } = filmCard;
 
   const mainGenre = genres.slice(0, 1);
@@ -38,7 +38,7 @@ const createFilmCard = (filmCard) => {
           <div class="film-card__controls">
             <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${isWatchlist ? 'film-card__controls-item--active' : ''}" type="button">Add to watchlist</button>
             <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${isWatched ? 'film-card__controls-item--active' : ''}" type="button">Mark as watched</button>
-            <button class="film-card__controls-item button film-card__controls-item--favorite ${isFavorites ? 'film-card__controls-item--active' : ''}" type="button">Mark as favorite</button>
+            <button class="film-card__controls-item button film-card__controls-item--favorite ${isFavorite ? 'film-card__controls-item--active' : ''}" type="button">Mark as favorite</button>
           </div>
         </article>`;
 };

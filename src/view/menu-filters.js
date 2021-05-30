@@ -20,8 +20,8 @@ const createFilterItemTemplate = (filter, currentFilterType) => {
       case FilterType.HISTORY:
         dataType = `${FilterType.HISTORY}`;
         break;
-      case FilterType.FAVORITES:
-        dataType = `${FilterType.FAVORITES}`;
+      case FilterType.FAVORITE:
+        dataType = `${FilterType.FAVORITE}`;
         break;
     }
     return dataType;

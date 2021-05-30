@@ -83,9 +83,9 @@ export default class Filter {
         count: filter[FilterType.HISTORY](films).length,
       },
       {
-        type: FilterType.FAVORITES,
-        name: 'Favorites',
-        count: filter[FilterType.FAVORITES](films).length,
+        type: FilterType.FAVORITE,
+        name: 'Favorite',
+        count: filter[FilterType.FAVORITE](films).length,
       },
     ];
   }

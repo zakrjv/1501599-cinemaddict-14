@@ -1,24 +1,24 @@
 import dayjs from 'dayjs';
 import AbstractView from '../view/abstract.js';
 
-const createFilmComment = (comment) => {
+const createFilmComment = (comments) => {
   const {
     id,
-    text,
+    comment,
     emotion,
     author,
-    commentDate,
-  } = comment;
+    date,
+  } = comments;
 
   return `<li class="film-details__comment">
             <span class="film-details__comment-emoji">
-              <img src="./images/emoji/${emotion}" width="55" height="55" alt="emoji-smile">
+              <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
             </span>
             <div>
-              <p class="film-details__comment-text">${text}</p>
+              <p class="film-details__comment-text">${comment}</p>
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${author}</span>
-                <span class="film-details__comment-day">${dayjs(commentDate).format('YYYY/MM/DD HH:MM')}</span>
+                <span class="film-details__comment-day">${dayjs(date).format('YYYY/MM/DD HH:MM')}</span>
                 <button class="film-details__comment-delete" data-comment-id="${id}" type="button">Delete</button>
               </p>
             </div>

@@ -9,12 +9,13 @@ const Mode = {
 };
 
 export default class Film {
-  constructor(filmContainer, changeData, changeMode, commentsModel) {
+  constructor(filmContainer, changeData, changeMode, commentsModel, api) {
     this._filmContainer = filmContainer;
     this._changeData = changeData;
     this._changeMode = changeMode;
     this._commentsModel = commentsModel;
     this._bodyElement = document.body;
+    this._api = api;
 
     this._filmCardComponent = null;
     this._popupFilmDetailsComponent = null;
@@ -67,22 +68,27 @@ export default class Film {
   }
 
   _openPopup() {
-    this._changeMode();
-    this._mode = Mode.OPEN;
-    this._popupFilmDetailsComponent = new PopupFilmDetailsView(this._film, this._commentsModel.get());
+    this._api.getComments(this._film.id).then((comments) => {
+      this._commentsModel.set(comments);
+      this._popupFilmDetailsComponent = new PopupFilmDetailsView(this._film, this._commentsModel.get());
 
-    this._bodyElement.appendChild(this._popupFilmDetailsComponent.getElement());
-    this._bodyElement.classList.add('hide-overflow');
-    document.addEventListener('keydown', this._escKeyDownHandler);
 
-    this._popupFilmDetailsComponent.setClickButtonCloseHandler(this._handleHidePopupClick);
-    this._popupFilmDetailsComponent.setFavoritePopupClickHandler(this._handleButtonFavoriteClick);
-    this._popupFilmDetailsComponent.setWatchedPopupClickHandler(this._handleButtonWatchedClick);
-    this._popupFilmDetailsComponent.setWatchlistPopupClickHandler(this._handleButtonWatchlistClick);
+      this._changeMode();
+      this._mode = Mode.OPEN;
 
-    this._popupFilmDetailsComponent.setClickButtonDeleteCommentHandler(this._handleButtonDeleteClick);
+      this._bodyElement.appendChild(this._popupFilmDetailsComponent.getElement());
+      this._bodyElement.classList.add('hide-overflow');
+      document.addEventListener('keydown', this._escKeyDownHandler);
 
-    render(this._bodyElement, this._popupFilmDetailsComponent);
+      this._popupFilmDetailsComponent.setClickButtonCloseHandler(this._handleHidePopupClick);
+      this._popupFilmDetailsComponent.setFavoritePopupClickHandler(this._handleButtonFavoriteClick);
+      this._popupFilmDetailsComponent.setWatchedPopupClickHandler(this._handleButtonWatchedClick);
+      this._popupFilmDetailsComponent.setWatchlistPopupClickHandler(this._handleButtonWatchlistClick);
+
+      this._popupFilmDetailsComponent.setClickButtonDeleteCommentHandler(this._handleButtonDeleteClick);
+
+      render(this._bodyElement, this._popupFilmDetailsComponent);
+    });
   }
 
   _hidePopup() {

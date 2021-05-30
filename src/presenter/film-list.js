@@ -86,7 +86,7 @@ export default class FilmList {
   }
 
   _renderFilm(film, container) {
-    this._filmPresenter = new FilmPresenter(container, this._handleViewAction, this._handleModeChange, this._commentsModel);
+    this._filmPresenter = new FilmPresenter(container, this._handleViewAction, this._handleModeChange, this._commentsModel, this._api);
     this._filmPresenter.init(film);
   }
 
@@ -217,10 +217,8 @@ export default class FilmList {
   }
 
   _handleViewAction(actionType, updateType, update) {
-    console.log(update);
     switch (actionType) {
       case UserAction.UPDATE_FILM:
-        // this._filmsModel.update(updateType, update);
         this._api.updateFilms(update).then((response) => {
           this._filmsModel.update(updateType, response);
         });

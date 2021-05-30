@@ -14,13 +14,11 @@ const END_POINT = 'https://14.ecmascript.pages.academy/cinemaddict/';
 const siteMainElement = document.querySelector('.main');
 const footerElement = document.querySelector('.footer__statistics');
 
-// const comments = getComments();
 const api = new Api(END_POINT, AUTHORIZATION);
-
 
 const filmsModel = new FilmsModel();
 const filterModel = new FilterModel();
-const commentsModel = new CommentsModel();
+const commentsModel = new CommentsModel(api);
 
 // commentsModel.set(comments);
 

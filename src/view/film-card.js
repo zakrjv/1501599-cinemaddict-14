@@ -32,7 +32,7 @@ const createFilmCard = (filmCard) => {
             <span class="film-card__duration">${duration}</span>
             <span class="film-card__genre">${mainGenre}</span>
           </p>
-          <img src="./images/posters/${poster}" alt="" class="film-card__poster">
+          <img src="${poster}" alt="" class="film-card__poster">
           <p class="film-card__description">${description.length >= DESC_LENGTH ? truncatesDescription(description) : description}</p>
           <a class="film-card__comments">${comments.length}</a>
           <div class="film-card__controls">

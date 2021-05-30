@@ -1,8 +1,8 @@
 // import UserRankView from './view/user-rank.js';
-// import FooterStatisticsView from './view/footer-statistics';
+import FooterStatisticsView from './view/footer-statistics';
 // import {generateFilmCard} from './mock/film-card.js';
 // import {getRank} from './mock/user-rank.js';
-// import {render} from './utils/render.js';
+import {render} from './utils/render.js';
 import FilmListPresenter from './presenter/film-list.js';
 import MenuFiltersPresenter from './presenter/filter.js';
 import FilmsModel from './model/films.js';
@@ -34,6 +34,7 @@ const filterPresenter = new MenuFiltersPresenter(siteMainElement, filmsModel, fi
 api.getFilms()
   .then((films) => {
     filmsModel.set(UpdateType.INIT, films);
+    render(footerElement, new FooterStatisticsView(filmsModel.get().length));
   })
   .catch(() => {
     filmsModel.set(UpdateType.INIT, []);
@@ -41,5 +42,3 @@ api.getFilms()
 
 filterPresenter.init();
 filmsPresenter.init();
-
-// render(footerElement, new FooterStatisticsView(films.length));

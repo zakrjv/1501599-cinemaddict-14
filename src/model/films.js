@@ -56,8 +56,6 @@ export default class Films extends Observer {
         isWatched: film.user_details.already_watched,
         isFavorite: film.user_details.favorite,
         watchedDate: film.user_details.watching_date,
-        // localEmotion: null,
-        // localDescription: null,
       },
     );
     delete adaptedFilm.film_info;
@@ -116,7 +114,6 @@ export default class Films extends Observer {
     delete adaptedFilm.isWatchlist;
     delete adaptedFilm.isWatched;
     delete adaptedFilm.isFavorite;
-    // delete adaptedFilm.localEmotion;
 
     return adaptedFilm;
   }

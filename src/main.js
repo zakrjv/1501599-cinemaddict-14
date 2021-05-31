@@ -18,7 +18,7 @@ const api = new Api(END_POINT, AUTHORIZATION);
 
 const filmsModel = new FilmsModel();
 const filterModel = new FilterModel();
-const commentsModel = new CommentsModel(api);
+const commentsModel = new CommentsModel();
 
 const filterPresenter = new MenuFiltersPresenter(siteMainElement, filmsModel, filterModel);
 const filmsPresenter = new FilmListPresenter(siteMainElement, filmsModel, filterModel, commentsModel, api);

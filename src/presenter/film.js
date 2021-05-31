@@ -68,27 +68,23 @@ export default class Film {
   }
 
   _openPopup() {
-    this._api.getComments(this._film.id).then((comments) => {
-      this._commentsModel.set(comments);
-      this._popupFilmDetailsComponent = new PopupFilmDetailsView(this._film, this._commentsModel.get());
+    this._popupFilmDetailsComponent = new PopupFilmDetailsView(this._film, this._commentsModel.get());
 
+    this._changeMode();
+    this._mode = Mode.OPEN;
 
-      this._changeMode();
-      this._mode = Mode.OPEN;
+    this._bodyElement.appendChild(this._popupFilmDetailsComponent.getElement());
+    this._bodyElement.classList.add('hide-overflow');
+    document.addEventListener('keydown', this._escKeyDownHandler);
 
-      this._bodyElement.appendChild(this._popupFilmDetailsComponent.getElement());
-      this._bodyElement.classList.add('hide-overflow');
-      document.addEventListener('keydown', this._escKeyDownHandler);
+    this._popupFilmDetailsComponent.setClickButtonCloseHandler(this._handleHidePopupClick);
+    this._popupFilmDetailsComponent.setFavoritePopupClickHandler(this._handleButtonFavoriteClick);
+    this._popupFilmDetailsComponent.setWatchedPopupClickHandler(this._handleButtonWatchedClick);
+    this._popupFilmDetailsComponent.setWatchlistPopupClickHandler(this._handleButtonWatchlistClick);
 
-      this._popupFilmDetailsComponent.setClickButtonCloseHandler(this._handleHidePopupClick);
-      this._popupFilmDetailsComponent.setFavoritePopupClickHandler(this._handleButtonFavoriteClick);
-      this._popupFilmDetailsComponent.setWatchedPopupClickHandler(this._handleButtonWatchedClick);
-      this._popupFilmDetailsComponent.setWatchlistPopupClickHandler(this._handleButtonWatchlistClick);
+    this._popupFilmDetailsComponent.setClickButtonDeleteCommentHandler(this._handleButtonDeleteClick);
 
-      this._popupFilmDetailsComponent.setClickButtonDeleteCommentHandler(this._handleButtonDeleteClick);
-
-      render(this._bodyElement, this._popupFilmDetailsComponent);
-    });
+    render(this._bodyElement, this._popupFilmDetailsComponent);
   }
 
   _hidePopup() {
@@ -106,7 +102,10 @@ export default class Film {
   }
 
   _handleOpenPopupClick() {
-    this._openPopup();
+    this._api.getComments(this._film.id).then((comments) => {
+      this._commentsModel.set(UpdateType.MINOR, comments);
+      this._openPopup();
+    });
   }
 
   _handleHidePopupClick() {
@@ -145,6 +144,6 @@ export default class Film {
       {...this._film, comments: film.comments},
     );
 
-    this._commentsModel.deleteComment(UpdateType.MINOR, commentId, film);
+    this._commentsModel.delete(UpdateType.MINOR, commentId, film);
   }
 }

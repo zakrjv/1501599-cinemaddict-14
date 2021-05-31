@@ -1,14 +1,15 @@
 import Observer from '../utils/observer.js';
 
 export default class Comments extends Observer {
-  constructor(api) {
+  constructor() {
     super();
     this._comments = [];
-    this._api = api;
   }
 
-  set(comments) {
+  set(updateType, comments) {
     this._comments = comments.slice();
+
+    this._notify(updateType);
   }
 
   get() {

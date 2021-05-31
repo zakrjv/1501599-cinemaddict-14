@@ -24,9 +24,16 @@ const FilterType = {
   FAVORITE: 'Favorite',
 };
 
+const Rank = {
+  NOVICE: 'Novice',
+  FAN: 'Fan',
+  MOVIE_BUFF: 'Movie Buff',
+};
+
 export {
   UserAction,
   UpdateType,
   SortType,
-  FilterType
+  FilterType,
+  Rank
 };
